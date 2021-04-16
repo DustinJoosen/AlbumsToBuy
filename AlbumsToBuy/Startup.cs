@@ -1,4 +1,6 @@
 using AlbumsToBuy.Models;
+using AlbumsToBuy.Repositories;
+using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,26 @@ namespace AlbumsToBuy
 
 			services.AddDbContext<ApplicationDbContext>(
 				options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+
+			//repositories
+			services.AddScoped<AddressRepository>();
+			services.AddScoped<AlbumOrderRepository>();
+			services.AddScoped<AlbumRepository>();
+			services.AddScoped<OrderRepository>();
+			services.AddScoped<PaymentRepository>();
+			services.AddScoped<ShoppingListItemRepository>();
+			services.AddScoped<TrackRepository>();
+			services.AddScoped<UserRepository>();
+			
+			//services
+			services.AddScoped<AddressService>();
+			services.AddScoped<AlbumOrderService>();
+			services.AddScoped<AlbumService>();
+			services.AddScoped<OrderService>();
+			services.AddScoped<PaymentService>();
+			services.AddScoped<ShoppingListItemService>();
+			services.AddScoped<TrackService>();
+			services.AddScoped<UserService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
