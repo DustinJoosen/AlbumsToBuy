@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Models
 {
-	public class Address
+	public class Address : IBase
 	{
-		public int id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		public string Street { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Models
 {
-	public class Album
+	public class Album : IBase
 	{
 		public int Id { get; set; }
 		[Required]

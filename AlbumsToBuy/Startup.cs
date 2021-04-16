@@ -4,6 +4,7 @@ using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,10 @@ namespace AlbumsToBuy
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
+			services.Configure<RazorViewEngineOptions>(o =>
+			{
+				o.ViewLocationFormats.Add("/Views/Management/{1}/{0}" + RazorViewEngine.ViewExtension);
+			});
 
 			services.AddDbContext<ApplicationDbContext>(
 				options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
@@ -78,6 +83,9 @@ namespace AlbumsToBuy
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute(
+					name: "management",
+					pattern: "Management/{controller}/{action=Index}/{id?}");
 			});
 		}
 	}

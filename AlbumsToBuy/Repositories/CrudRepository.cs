@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Repositories
 {
-	public abstract class CrudRepository<T> where T : class
+	public abstract class CrudRepository<T> where T : class, IBase
 	{
 		private ApplicationDbContext _context;
 		private DbSet<T> _entity;
@@ -18,32 +18,37 @@ namespace AlbumsToBuy.Repositories
 			_entity = context.Set<T>();
 		}
 
-		public async Task<List<T>> GetAll()
+		public virtual async Task<List<T>> GetAll()
 		{
 			return await this._entity.ToListAsync();
 		}
 
-		public async Task<T> GetById(int id)
+		public virtual async Task<T> GetById(int id)
 		{
 			return await this._entity.FindAsync(id);
 		}
 
-		public async Task Create(T model)
+		public virtual async Task Create(T model)
 		{
 			this._entity.Add(model);
 			await this._context.SaveChangesAsync();
 		}
 
-		public async Task Update(T model)
+		public virtual async Task Update(T model)
 		{
 			this._context.Entry(model).State = EntityState.Modified;
 			await this._context.SaveChangesAsync();
 		}
 
-		public async Task Remove(T model)
+		public virtual async Task Remove(T model)
 		{
 			this._entity.Remove(model);
 			await this._context.SaveChangesAsync();
+		}
+
+		public virtual bool Exists(T model)
+		{
+			return this._entity.Any(s => s.Id == model.Id);
 		}
 	}
 }

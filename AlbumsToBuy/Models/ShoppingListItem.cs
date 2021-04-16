@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Models
 {
-	public class ShoppingListItem
+	public class ShoppingListItem : IBase
 	{
 		public int Id { get; set; }
 

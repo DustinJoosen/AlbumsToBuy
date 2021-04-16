@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Models
 {
-	public class Payment
+	public class Payment : IBase
 	{
 		public int Id { get; set; }
 
-		[Required]
 		public User User { get; set; }
+		[Required]
 		public int UserId { get; set; }
 
 		[Required]

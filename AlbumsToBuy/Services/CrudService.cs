@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Services
 {
-	public abstract class CrudService<T> where T : class
+	public abstract class CrudService<T> where T : class, IBase
 	{
         protected readonly CrudRepository<T> _repository;
         public CrudService(CrudRepository<T> genericRepository)
@@ -37,5 +37,11 @@ namespace AlbumsToBuy.Services
         {
             await _repository.Remove(entity);
         }
+
+        public virtual bool Exists(T entity)
+		{
+            return _repository.Exists(entity);
+		}
     }
 }
+
