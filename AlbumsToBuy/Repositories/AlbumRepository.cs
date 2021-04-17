@@ -19,5 +19,15 @@ namespace AlbumsToBuy.Repositories
 		{
 			return await this._context.Albums.Include(s => s.Tracks).ToListAsync();
 		}
+
+		public override async Task<Album> GetById(int id)
+		{
+			return await this._context.Albums.Include(s => s.Tracks).SingleOrDefaultAsync(s => s.Id == id);
+		}
+		public async Task<List<AlbumOrder>> GetByOrder(Order order)
+		{
+			return await this._context.AlbumOlders.Include(s => s.Album).Where(s => s.OrderId == order.Id).ToListAsync();
+		}
+
 	}
 }

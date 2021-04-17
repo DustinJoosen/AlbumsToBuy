@@ -10,12 +10,12 @@ namespace AlbumsToBuy.Models
 	{
 		public int Id { get; set; }
 
-		[Required]
 		public Album Album { get; set; }
+		[Required]
 		public int AlbumId { get; set; }
 
-		[Required]
 		public Order Order { get; set; }
+		[Required]
 		public int OrderId { get; set; }
 	}
 }

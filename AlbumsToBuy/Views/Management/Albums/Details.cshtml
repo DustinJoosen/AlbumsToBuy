@@ -54,6 +54,16 @@
         </dd>
     </dl>
 </div>
+
+<hr/>
+
+@foreach(var track in Model.Tracks)
+{
+    <p><a href="/Management/Tracks/Details/@track.Id">@track.Name</a> - @track.Duration</p>
+}
+
+<hr/>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

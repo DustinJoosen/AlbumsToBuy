@@ -17,6 +17,7 @@ namespace AlbumsToBuy.Models
 		public string LastName { get; set; }
 		
 		[Required]
+		public int HomeAddressId { get; set; }
 		public Address HomeAddress { get; set; }
 		
 		[Required]

@@ -10,16 +10,16 @@ namespace AlbumsToBuy.Models
 	{
 		public int Id { get; set; }
 
-		[Required]
 		public Payment Payment { get; set; }
+		[Required]
 		public int PaymentId { get; set; }
 		
-		[Required]
 		public Address Address { get; set; }
+		[Required]
 		public int AddressId { get; set; }
 		
-		[Required]
 		public User User { get; set; }
+		[Required]
 		public int UserId { get; set; }
 
 		public DateTime OrderDate { get; set; } = DateTime.UtcNow;

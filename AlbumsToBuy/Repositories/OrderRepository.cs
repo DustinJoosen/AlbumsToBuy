@@ -1,4 +1,5 @@
 ﻿using AlbumsToBuy.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,28 @@ namespace AlbumsToBuy.Repositories
 {
 	public class OrderRepository : CrudRepository<Order>
 	{
+		private ApplicationDbContext _context;
 		public OrderRepository(ApplicationDbContext context) : base(context)
 		{
+			_context = context;
+		}
 
+		public override async Task<List<Order>> GetAll()
+		{
+			return await this._context.Orders
+				.Include(s => s.Address)
+				.Include(s => s.Payment)
+				.Include(s => s.User)
+				.ToListAsync();
+		}
+
+		public override async Task<Order> GetById(int id)
+		{
+			return await this._context.Orders
+				.Include(s => s.Address)
+				.Include(s => s.Payment)
+				.Include(s => s.User)
+				.SingleOrDefaultAsync(s => s.Id == id);
 		}
 	}
 }

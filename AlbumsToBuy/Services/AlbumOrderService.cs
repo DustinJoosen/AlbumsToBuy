@@ -11,7 +11,7 @@ namespace AlbumsToBuy.Services
 	{
 		public AlbumOrderService(AlbumOrderRepository repos) : base(repos)
 		{
-
 		}
+
 	}
 }
