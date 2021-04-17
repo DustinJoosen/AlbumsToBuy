@@ -50,10 +50,11 @@
 </div>
 
 <hr/>
-
+<h2>Albums</h2>
+<br/>
 @foreach(var albumOrder in Model.Albums)
 {
-    <p>@albumOrder.Album.Name by @albumOrder.Album.Creator</p>
+    <p><img src="~/@albumOrder.Album.ImageUrl" style="width:60px; height:60px;"/> @albumOrder.Album.Name by @albumOrder.Album.Creator</p>
 }
 
 <hr/>

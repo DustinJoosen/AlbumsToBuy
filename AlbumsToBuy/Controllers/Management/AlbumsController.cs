@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using AlbumsToBuy.Helpers;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -16,10 +18,12 @@ namespace AlbumsToBuy.Controllers.Management
     public class AlbumsController : Controller
     {
         private AlbumService _albumService;
+        private IWebHostEnvironment _env;
 
-        public AlbumsController(AlbumService albumService)
+        public AlbumsController(AlbumService albumService, IWebHostEnvironment env)
         {
             _albumService = albumService;
+            _env = env;
         }
 
         // GET: Albums
@@ -59,6 +63,8 @@ namespace AlbumsToBuy.Controllers.Management
         {
             if (ModelState.IsValid)
             {
+                ImageHelper.UploadImage(ref album, _env);
+                
                 await _albumService.Create(album);
                 return RedirectToAction(nameof(Index));
             }
@@ -95,6 +101,11 @@ namespace AlbumsToBuy.Controllers.Management
             {
                 try
                 {
+                    if (album.FormFile != null)
+					{
+                        ImageHelper.UploadImage(ref album, _env);
+                    }
+
                     await _albumService.Update(album);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -141,6 +152,7 @@ namespace AlbumsToBuy.Controllers.Management
                 return NotFound();
 			}
 
+            ImageHelper.RemoveImage(ref album, _env);
             await _albumService.Remove(album);
             return RedirectToAction(nameof(Index));
         }
