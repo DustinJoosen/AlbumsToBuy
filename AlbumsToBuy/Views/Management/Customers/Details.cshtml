@@ -42,6 +42,16 @@
         </dd>
     </dl>
 </div>
+
+<hr/>
+
+@foreach(var shoppingListItem in Model.ShoppingListItems)
+{
+    <p>@shoppingListItem.Album.Name by @shoppingListItem.Album.Creator</p>
+}
+
+<hr/>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

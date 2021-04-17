@@ -30,6 +30,7 @@ namespace AlbumsToBuy.Repositories
 				.Include(s => s.Address)
 				.Include(s => s.Payment)
 				.Include(s => s.User)
+				.Include(s => s.Albums).ThenInclude(s => s.Album)
 				.SingleOrDefaultAsync(s => s.Id == id);
 		}
 	}

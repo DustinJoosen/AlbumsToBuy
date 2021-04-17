@@ -53,14 +53,7 @@ namespace AlbumsToBuy.Controllers.Management
                 return NotFound();
             }
 
-            var albumOrders = await _albumService.GetByOrder(order);
-            var vm = new OrderAlbums()
-            {
-                Order = order,
-                AlbumOrders = albumOrders
-            };
-
-            return View(vm);
+            return View(order);
         }
 
         // GET: Orders/Create

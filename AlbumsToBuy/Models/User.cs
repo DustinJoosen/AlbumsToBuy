@@ -28,5 +28,7 @@ namespace AlbumsToBuy.Models
 		
 		[Required]
 		public UserRole Role { get; set; }
+
+		public List<ShoppingListItem> ShoppingListItems { get; set; }
 	}
 }

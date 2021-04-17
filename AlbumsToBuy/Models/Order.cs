@@ -25,5 +25,7 @@ namespace AlbumsToBuy.Models
 		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 		public OrderStatus Status { get; set; } = OrderStatus.Recieved;
 		public string SpecialNotes{ get; set; }
+
+		public List<AlbumOrder> Albums { get; set; }
 	}
 }
