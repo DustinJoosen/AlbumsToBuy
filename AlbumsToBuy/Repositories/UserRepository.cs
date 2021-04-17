@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,28 @@ namespace AlbumsToBuy.Repositories
 			return await this._context.Users
 				.Include(s => s.ShoppingListItems).ThenInclude(s => s.Album)
 				.SingleOrDefaultAsync(s => s.Id == id);
+		}
+
+		public override Task Create(User model)
+		{
+			model.UserToken = AlbumsToBuy.Helpers.AuthenticationHelper.CreateToken();
+			return base.Create(model);
+		}
+
+		public async Task<User> GetByEmail(string email)
+		{
+			return await _context.Users.SingleOrDefaultAsync(s => s.Email == email);
+		}
+
+		public async Task<bool> CheckLogin(AuthDto auth)
+		{
+			var user = await _context.Users.SingleOrDefaultAsync(s => s.Email == auth.Username);
+			if (user == null)
+			{
+				return false;
+			}
+
+			return user.Password == auth.Password;
 		}
 	}
 }

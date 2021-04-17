@@ -1,6 +1,7 @@
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using AlbumsToBuy.Services;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
