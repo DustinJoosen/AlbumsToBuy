@@ -24,26 +24,46 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" data-toggle="dropdown">Management</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Albums" asp-action="Index">Albums</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tracks" asp-action="Index">Tracks</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" data-toggle="dropdown">Management</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Albums" asp-action="Index">Albums</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Tracks" asp-action="Index">Tracks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item login_nav_link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item register_nav_link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>                            
+                            <li class="nav-item login_nav_link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlbumsToBuy.Controllers.Management
 {
     [Route("Management/[controller]/{action=Index}/{id?}")]
+    [Authorize(Roles = "Admin")]
     public class AlbumsController : Controller
     {
         private AlbumService _albumService;

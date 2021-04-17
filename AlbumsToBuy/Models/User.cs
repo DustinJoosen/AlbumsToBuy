@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,8 +17,7 @@ namespace AlbumsToBuy.Models
 		[Required]
 		public string LastName { get; set; }
 		
-		[Required]
-		public int HomeAddressId { get; set; }
+		public int? HomeAddressId { get; set; }
 		public Address HomeAddress { get; set; }
 		
 		[Required]
@@ -32,5 +32,8 @@ namespace AlbumsToBuy.Models
 		public string UserToken { get; set; }
 
 		public List<ShoppingListItem> ShoppingListItems { get; set; }
+
+		[NotMapped]
+		public string FullName { get { return $"{FirstName} {LastName}";  } }
 	}
 }

@@ -29,6 +29,11 @@ namespace AlbumsToBuy.Repositories
 			return base.Create(model);
 		}
 
+		public async Task<User> GetByToken(string token)
+		{
+			return await _context.Users.SingleOrDefaultAsync(s => s.UserToken == token);
+		}
+
 		public async Task<User> GetByEmail(string email)
 		{
 			return await _context.Users.SingleOrDefaultAsync(s => s.Email == email);

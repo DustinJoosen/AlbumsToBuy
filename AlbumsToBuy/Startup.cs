@@ -1,9 +1,12 @@
+using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using AlbumsToBuy.Services;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +40,12 @@ namespace AlbumsToBuy
 
 			services.AddDbContext<ApplicationDbContext>(
 				options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+			{
+				options.LoginPath = "/Account/Login";
+				options.Cookie.Name = "AuthorizationCookie";
+			});
 
 			//repositories
 			services.AddScoped<AddressRepository>();
@@ -77,7 +86,10 @@ namespace AlbumsToBuy
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
+
+			app.UseCookiePolicy();
 
 			app.UseEndpoints(endpoints =>
 			{
