@@ -32,8 +32,8 @@ namespace AlbumsToBuy.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var user = await _userService.GetByToken(User.Identity.Name);
-			if(user == null)
+			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
+			if (user == null)
 			{
 				return Unauthorized();
 			}
@@ -56,7 +56,7 @@ namespace AlbumsToBuy.Controllers
 			var order = orderUser.Order;
 			order.OrderDate = DateTime.Now;
 
-			var user = await _userService.GetByToken(User.Identity.Name);
+			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
 			if (user == null)
 			{
 				return Unauthorized();

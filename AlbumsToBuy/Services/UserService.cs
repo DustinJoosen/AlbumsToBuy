@@ -26,11 +26,6 @@ namespace AlbumsToBuy.Services
 			return await this.repos.GetByEmail(username);
 		}		
 		
-		public async Task<User> GetByToken(string token)
-		{
-			return await this.repos.GetByToken(token);
-		}
-
 		public async Task<bool> UniqueEmail(string email)
 		{
 			return await this.repos.UniqueEmail(email);

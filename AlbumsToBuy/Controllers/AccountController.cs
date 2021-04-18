@@ -43,7 +43,7 @@ namespace AlbumsToBuy.Controllers
 				var user = await _userService.GetByEmail(auth.Username);
 
 				var claims = new List<Claim>() {
-					new Claim(ClaimTypes.Name, user.UserToken),
+					new Claim(ClaimTypes.Name, user.Id.ToString()),
 					new Claim(ClaimTypes.Role, user.Role.ToString())
 				};
 
@@ -100,8 +100,7 @@ namespace AlbumsToBuy.Controllers
 					Email = register.Email,
 					FirstName = register.FirstName,
 					LastName = register.LastName,
-					Role = UserRole.Customer,
-					UserToken = AuthenticationHelper.CreateToken()
+					Role = UserRole.Customer
 				};
 
 				await _userService.Create(user);
@@ -120,7 +119,7 @@ namespace AlbumsToBuy.Controllers
 		[Authorize]
 		public async Task<IActionResult> Settings()
 		{
-			var user = await _userService.GetByToken(User.Identity.Name);
+			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
 			return View(user);
 		}
 

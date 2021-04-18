@@ -24,25 +24,6 @@ namespace AlbumsToBuy.Repositories
 				.SingleOrDefaultAsync(s => s.Id == id);
 		}
 
-		public override Task Create(User model)
-		{
-			model.UserToken = AuthenticationHelper.CreateToken();
-			return base.Create(model);
-		}
-
-		public override Task Update(User model)
-		{
-			model.UserToken = AuthenticationHelper.CreateToken();
-			return base.Update(model);
-		}
-
-		public async Task<User> GetByToken(string token)
-		{
-			return await _context.Users
-				.Include(s => s.ShoppingListItems).ThenInclude(s => s.Album)
-				.SingleOrDefaultAsync(s => s.UserToken == token);
-		}
-
 		public async Task<bool> UniqueEmail(string email)
 		{
 			var result = await _context.Users.AnyAsync(s => s.Email.ToLower() == email.ToLower());

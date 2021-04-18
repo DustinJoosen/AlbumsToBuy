@@ -49,8 +49,8 @@ namespace AlbumsToBuy.Controllers
 			}
 			Quantity = Quantity == 0 ? 1 : Quantity;
 
-			var user = await _userService.GetByToken(User.Identity.Name);
-			if(user == null || user.Role != UserRole.Customer)
+			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
+			if (user == null || user.Role != UserRole.Customer)
 			{
 				return Unauthorized();
 			}
