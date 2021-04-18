@@ -17,5 +17,7 @@ namespace AlbumsToBuy.Models
 		public Album Album { get; set; }
 		[Required]
 		public int AlbumId { get; set; }
+
+		public int Quantity { get; set; }
 	}
 }

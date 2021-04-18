@@ -54,7 +54,7 @@
 <br/>
 @foreach(var albumOrder in Model.Albums)
 {
-    <p><img src="~/@albumOrder.Album.ImageUrl" style="width:60px; height:60px;"/> @albumOrder.Album.Name by @albumOrder.Album.Creator</p>
+<p>@albumOrder.Quantity x <img src="~/@albumOrder.Album.ImageUrl" style="width:60px; height:60px;" /> @albumOrder.Album.Name by @albumOrder.Album.Creator </p>
 }
 
 <hr/>

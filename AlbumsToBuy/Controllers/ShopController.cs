@@ -40,13 +40,14 @@ namespace AlbumsToBuy.Controllers
 
 		[HttpPost]
 		[Authorize(Roles ="Customer")]
-		public async Task<IActionResult> AddToShoppingCart(int Id)
+		public async Task<IActionResult> AddToShoppingCart(int Id, int Quantity)
 		{
 			var album = await _albumService.GetById(Id);
 			if(album == null)
 			{
 				return NotFound();
 			}
+			Quantity = Quantity == 0 ? 1 : Quantity;
 
 			var user = await _userService.GetByToken(User.Identity.Name);
 			if(user == null || user.Role != UserRole.Customer)
@@ -57,7 +58,8 @@ namespace AlbumsToBuy.Controllers
 			await _shoppingListItemService.Create(new ShoppingListItem()
 			{
 				UserId = user.Id,
-				AlbumId = album.Id
+				AlbumId = album.Id,
+				Quantity = Quantity
 			});
 			
 			return RedirectToAction(nameof(Index));

@@ -164,7 +164,7 @@ namespace AlbumsToBuy.Controllers.Management
 			{
                 return NotFound();
 			}
-            
+
             await _orderService.Remove(order);
             return RedirectToAction(nameof(Index));
         }

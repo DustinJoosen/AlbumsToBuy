@@ -18,13 +18,18 @@ namespace AlbumsToBuy.Controllers
 		private AddressService _addressService;
 		private PaymentService _paymentService;
 		private OrderService _orderService;
+		private AlbumOrderService _albumOrderService;
+		private ShoppingListItemService _shoppingListItemService;
 
-		public OrderController(UserService userService, AddressService addressService, PaymentService paymentService, OrderService orderService)
+		public OrderController(UserService userService, AddressService addressService, PaymentService paymentService, 
+			OrderService orderService, AlbumOrderService albumOrderService, ShoppingListItemService shoppingListItemService)
 		{
 			_userService = userService;
 			_addressService = addressService;
 			_paymentService = paymentService;
 			_orderService = orderService;
+			_albumOrderService = albumOrderService;
+			_shoppingListItemService = shoppingListItemService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -44,7 +49,7 @@ namespace AlbumsToBuy.Controllers
 		public async Task<IActionResult> Index(OrderUserDto orderUser)
 		{
 			var order = orderUser.Order;
-			order.OrderDate = DateTime.UtcNow;
+			order.OrderDate = DateTime.Now;
 
 			var user = await _userService.GetByToken(User.Identity.Name);
 			if (user == null)
@@ -53,9 +58,9 @@ namespace AlbumsToBuy.Controllers
 			}
 
 			decimal price = 0;
-			foreach(var album in user.ShoppingListItems)
+			foreach(var shoppingListItem in user.ShoppingListItems)
 			{
-				price += album.Album.Price;
+				price += (shoppingListItem.Album.Price * shoppingListItem.Quantity);
 			}
 
 			var payment = new Payment() {
@@ -70,9 +75,20 @@ namespace AlbumsToBuy.Controllers
 			order.PaymentId = payment.Id;
 
 			await _orderService.Create(order);
+
+			foreach(var shoppingListItem in user.ShoppingListItems)
+			{
+				await _albumOrderService.Create(new AlbumOrder()
+				{
+					AlbumId = shoppingListItem.AlbumId,
+					OrderId = order.Id,
+					Quantity = shoppingListItem.Quantity
+				});
+			}
+
+			await _shoppingListItemService.RemoveFromUser(user.Id);
+
 			return RedirectToAction(nameof(Index), "Home");
-		
-			//TODO: move the albums from the shoppinglist, to the order
 		}
 	}
 }
