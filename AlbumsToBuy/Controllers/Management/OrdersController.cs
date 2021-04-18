@@ -16,17 +16,15 @@ namespace AlbumsToBuy.Controllers.Management
     public class OrdersController : Controller
     {
         private OrderService _orderService;
-        private AddressService _addressService;
         private PaymentService _paymentService;
         private UserService _userService;
         private AlbumService _albumService;
         private AlbumOrderService _albumOrderService;
 
-        public OrdersController(OrderService orderService, AddressService addressService, 
+        public OrdersController(OrderService orderService,
             PaymentService paymentService, UserService userService, AlbumService albumService, AlbumOrderService albumOrderService)
         {
             _orderService = orderService;
-            _addressService = addressService;
             _paymentService = paymentService;
             _userService = userService;
             _albumService = albumService;
@@ -60,7 +58,6 @@ namespace AlbumsToBuy.Controllers.Management
         // GET: Orders/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City");
             ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id");
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email");
             return View();
@@ -77,7 +74,6 @@ namespace AlbumsToBuy.Controllers.Management
                 await _orderService.Create(order);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City", order.AddressId);
             ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id", order.PaymentId);
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email", order.UserId);
             return View(order);
@@ -96,7 +92,6 @@ namespace AlbumsToBuy.Controllers.Management
             {
                 return NotFound();
             }
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City");
             ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id");
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email");
             return View(order);
@@ -131,7 +126,6 @@ namespace AlbumsToBuy.Controllers.Management
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City", order.AddressId);
             ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id", order.PaymentId);
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email", order.UserId);
             return View(order);

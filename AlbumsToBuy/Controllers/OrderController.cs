@@ -15,17 +15,15 @@ namespace AlbumsToBuy.Controllers
 	public class OrderController : Controller
 	{
 		private UserService _userService;
-		private AddressService _addressService;
 		private PaymentService _paymentService;
 		private OrderService _orderService;
 		private AlbumOrderService _albumOrderService;
 		private ShoppingListItemService _shoppingListItemService;
 
-		public OrderController(UserService userService, AddressService addressService, PaymentService paymentService, 
+		public OrderController(UserService userService, PaymentService paymentService, 
 			OrderService orderService, AlbumOrderService albumOrderService, ShoppingListItemService shoppingListItemService)
 		{
 			_userService = userService;
-			_addressService = addressService;
 			_paymentService = paymentService;
 			_orderService = orderService;
 			_albumOrderService = albumOrderService;
@@ -40,8 +38,15 @@ namespace AlbumsToBuy.Controllers
 				return Unauthorized();
 			}
 
-			ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City", user.HomeAddressId);
-			return View(new OrderUserDto() { User = user });
+			var order = new Order()
+			{
+				Country = user.Country,
+				Street = user.Street,
+				City = user.City,
+				ZipCode = user.ZipCode
+			};
+
+			return View(new OrderUserDto() { User = user , Order = order});
 		}
 
 		[HttpPost]
@@ -87,7 +92,6 @@ namespace AlbumsToBuy.Controllers
 			}
 
 			await _shoppingListItemService.RemoveFromUser(user.Id);
-
 			return RedirectToAction(nameof(Index), "Home");
 		}
 	}

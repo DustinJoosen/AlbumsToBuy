@@ -70,6 +70,22 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+/*login pages*/
+#register_form,
+#login_form{
+    width:60%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:25px;
+}
+
+.login_form_group,
+.register_form_group {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .login_nav_link {
     position: absolute;
     right: 100px;

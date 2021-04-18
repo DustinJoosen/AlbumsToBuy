@@ -16,12 +16,10 @@ namespace AlbumsToBuy.Controllers.Management
     public class CustomersController : Controller
     {
         private readonly UserService _userService;
-        private readonly AddressService _addressService;
 
-        public CustomersController(UserService userService, AddressService addressService)
+        public CustomersController(UserService userService)
         {
             _userService = userService;
-            _addressService = addressService;
         }
 
         // GET: Customers
@@ -51,7 +49,6 @@ namespace AlbumsToBuy.Controllers.Management
         // GET: Customers/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City");
             return View();
         }
 
@@ -66,7 +63,6 @@ namespace AlbumsToBuy.Controllers.Management
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City", user.HomeAddressId);
             return View(user);
         }
 
@@ -84,7 +80,6 @@ namespace AlbumsToBuy.Controllers.Management
                 return NotFound();
             }
 
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City");
             return View(user);
         }
 
@@ -117,7 +112,6 @@ namespace AlbumsToBuy.Controllers.Management
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(await _addressService.GetAll(), "Id", "City", user.HomeAddressId);
             return View(user);
         }
 

@@ -16,9 +16,6 @@
                 @Html.DisplayNameFor(model => model.Payment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
@@ -37,10 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Payment.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.City)
+                <a href="~/Management/Payments/Details/@item.PaymentId">@item.Payment.Amount</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Email)

@@ -13,11 +13,19 @@ namespace AlbumsToBuy.Models
 		public Payment Payment { get; set; }
 		[Required]
 		public int PaymentId { get; set; }
-		
-		public Address Address { get; set; }
+
 		[Required]
-		public int AddressId { get; set; }
-		
+		public string Street { get; set; }
+
+		[Required]
+		public string City { get; set; }
+
+		[Required]
+		public string Country { get; set; }
+
+		[Required]
+		public string ZipCode { get; set; }
+
 		public User User { get; set; }
 		[Required]
 		public int UserId { get; set; }

@@ -17,15 +17,20 @@ namespace AlbumsToBuy.Models
 		[Required]
 		public string LastName { get; set; }
 		
-		public int? HomeAddressId { get; set; }
-		public Address HomeAddress { get; set; }
-		
 		[Required]
 		public string Email { get; set; }
 		
 		[Required]
 		public string Password { get; set; }
-		
+
+		public string Street { get; set; }
+
+		public string City { get; set; }
+
+		public string Country { get; set; }
+
+		public string ZipCode { get; set; }
+
 		[Required]
 		public UserRole Role { get; set; }
 

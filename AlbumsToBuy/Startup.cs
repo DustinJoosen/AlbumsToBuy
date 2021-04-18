@@ -49,7 +49,6 @@ namespace AlbumsToBuy
 			});
 
 			//repositories
-			services.AddScoped<AddressRepository>();
 			services.AddScoped<AlbumOrderRepository>();
 			services.AddScoped<AlbumRepository>();
 			services.AddScoped<OrderRepository>();
@@ -59,7 +58,6 @@ namespace AlbumsToBuy
 			services.AddScoped<UserRepository>();
 			
 			//services
-			services.AddScoped<AddressService>();
 			services.AddScoped<AlbumOrderService>();
 			services.AddScoped<AlbumService>();
 			services.AddScoped<OrderService>();

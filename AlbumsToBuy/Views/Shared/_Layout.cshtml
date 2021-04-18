@@ -44,7 +44,7 @@
                                 </ul>
                             </li>
                         }
-                        else if(User.IsInRole("Customer"))
+                        else if (User.IsInRole("Customer"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingList" asp-action="Index">Shopping List</a>
@@ -56,6 +56,9 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item register_nav_link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Settings">Settings</a>
+                            </li>
                             <li class="nav-item login_nav_link">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
@@ -64,7 +67,8 @@
                         {
                             <li class="nav-item register_nav_link">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>                            
+                            </li>
+
                             <li class="nav-item login_nav_link">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                             </li>

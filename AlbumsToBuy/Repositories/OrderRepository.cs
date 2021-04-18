@@ -18,7 +18,6 @@ namespace AlbumsToBuy.Repositories
 		public override async Task<List<Order>> GetAll()
 		{
 			return await this._context.Orders
-				.Include(s => s.Address)
 				.Include(s => s.Payment)
 				.Include(s => s.User)
 				.ToListAsync();
@@ -27,7 +26,6 @@ namespace AlbumsToBuy.Repositories
 		public override async Task<Order> GetById(int id)
 		{
 			return await this._context.Orders
-				.Include(s => s.Address)
 				.Include(s => s.Payment)
 				.Include(s => s.User)
 				.Include(s => s.Albums).ThenInclude(s => s.Album)

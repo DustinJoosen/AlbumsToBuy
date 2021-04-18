@@ -5,9 +5,11 @@ using AlbumsToBuy.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Composition.Convention;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -57,6 +59,7 @@ namespace AlbumsToBuy.Controllers
 			}
 			else
 			{
+				ModelState.AddModelError(String.Empty, "Invalid login attempt");
 				return View(auth);
 			}
 		}
@@ -68,25 +71,71 @@ namespace AlbumsToBuy.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Register(User user)
+		public async Task<IActionResult> Register(RegisterDto register)
 		{
 			if (ModelState.IsValid)
 			{
-				user.Role = UserRole.Customer;
-				user.UserToken = AuthenticationHelper.CreateToken();
+				//validation
+				bool valid = true;
+				if (!await _userService.UniqueEmail(register.Email))
+				{
+					ModelState.AddModelError("Email", "This email has already been registered");
+					valid = false;
+				}
+				if(register.Password != register.PasswordConfirmation)
+				{
+					ModelState.AddModelError("Password", "The passwords are not the same");
+					valid = false;
+				}
+
+				if (!valid)
+				{
+					return View(register);
+				}
+
+				//insertion
+				var user = new User()
+				{
+					Password = register.Password,
+					Email = register.Email,
+					FirstName = register.FirstName,
+					LastName = register.LastName,
+					Role = UserRole.Customer,
+					UserToken = AuthenticationHelper.CreateToken()
+				};
 
 				await _userService.Create(user);
-
 				return RedirectToAction("Login", "Account");
 			}
 
-			return View(user);
+			return View(register);
 		}
 
 		public async Task<IActionResult> Logout()
 		{
 			await HttpContext.SignOutAsync();
 			return RedirectToAction("Index", "Home");
+		}
+
+		[Authorize]
+		public async Task<IActionResult> Settings()
+		{
+			var user = await _userService.GetByToken(User.Identity.Name);
+			return View(user);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> Settings(User user)
+		{
+			if (ModelState.IsValid)
+			{
+				await _userService.Update(user);
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(user);
+
 		}
 	}
 }

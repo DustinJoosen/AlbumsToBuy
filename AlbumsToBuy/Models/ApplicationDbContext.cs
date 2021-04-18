@@ -13,7 +13,6 @@ namespace AlbumsToBuy.Models
 
 		}
 
-		public DbSet<Address> Addresses { get; set; }
 		public DbSet<Album> Albums{ get; set; }
 		public DbSet<AlbumOrder> AlbumOlders{ get; set; }
 		public DbSet<ShoppingListItem> ShoppingListItems{ get; set; }
