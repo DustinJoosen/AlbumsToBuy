@@ -45,6 +45,7 @@ namespace AlbumsToBuy
 			{
 				options.LoginPath = "/Account/Login";
 				options.Cookie.Name = "AuthorizationCookie";
+				//options.Cookie.Expiration = TimeSpan.FromDays(28);
 			});
 
 			//repositories

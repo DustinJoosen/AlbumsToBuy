@@ -47,7 +47,10 @@ namespace AlbumsToBuy.Controllers
 
 				var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 				var principal = new ClaimsPrincipal(identity);
-				var props = new AuthenticationProperties();
+				var props = new AuthenticationProperties() { 
+					ExpiresUtc = DateTime.UtcNow.AddDays(28), 
+					IsPersistent = true
+				};
 
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
 				return RedirectToAction("Index", "Home");

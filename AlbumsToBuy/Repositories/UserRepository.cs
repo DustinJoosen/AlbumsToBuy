@@ -1,4 +1,5 @@
 ﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,18 +26,21 @@ namespace AlbumsToBuy.Repositories
 
 		public override Task Create(User model)
 		{
-			model.UserToken = AlbumsToBuy.Helpers.AuthenticationHelper.CreateToken();
+			model.UserToken = AuthenticationHelper.CreateToken();
 			return base.Create(model);
 		}
 
 		public async Task<User> GetByToken(string token)
 		{
-			return await _context.Users.SingleOrDefaultAsync(s => s.UserToken == token);
+			return await _context.Users
+				.Include(s => s.ShoppingListItems).ThenInclude(s => s.Album)
+				.SingleOrDefaultAsync(s => s.UserToken == token);
 		}
 
 		public async Task<User> GetByEmail(string email)
 		{
-			return await _context.Users.SingleOrDefaultAsync(s => s.Email == email);
+			return await _context.Users
+				.SingleOrDefaultAsync(s => s.Email == email);
 		}
 
 		public async Task<bool> CheckLogin(AuthDto auth)

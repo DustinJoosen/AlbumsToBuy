@@ -30,6 +30,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
+            <th>Details</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -55,6 +57,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                <a href="~/Shop/Album/@item.Id">Album Details</a>
+            </td>
+            <td>
+                @if (User.IsInRole("Customer"))
+                {
+                    <form asp-action="AddToShoppingCart" method="post">
+                        <input type="hidden" value="@item.Id" name="Id" />
+                        <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
+                    </form>
+                }
             </td>
         </tr>
 }

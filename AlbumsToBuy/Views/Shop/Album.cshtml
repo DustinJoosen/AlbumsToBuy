@@ -1,0 +1,79 @@
+﻿@model AlbumsToBuy.Models.Album
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>Album</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Stock)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Stock)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CoverImage)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@Model.ImageUrl" style="width: 120px; height:120px;" />
+        </dd>
+    </dl>
+</div>
+
+<hr />
+
+<h3>Tracks</h3>
+@foreach (var track in Model.Tracks)
+{
+    <p>@track.Name - @track.Duration</p>
+}
+
+<hr />
+
+@if (User.IsInRole("Customer"))
+{
+    <form asp-action="AddToShoppingCart" method="post">
+        <input type="hidden" asp-for="@Model.Id"/>
+        <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
+    </form>
+}
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

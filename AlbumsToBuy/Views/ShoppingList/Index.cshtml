@@ -1,0 +1,11 @@
+﻿@model User
+
+<h1>Shopping list items</h1>
+
+@foreach (var shoppingListItem in Model.ShoppingListItems)
+{
+<form method="post" asp-action="RemoveFromShoppingList">
+    <input type="hidden" value="@shoppingListItem.Id" name="Id" />
+    <p>@shoppingListItem.Album.Name by @shoppingListItem.Album.Creator <input type="submit" value="x"/></p>
+</form>
+}
