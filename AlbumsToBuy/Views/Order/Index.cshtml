@@ -1,0 +1,43 @@
+﻿@model AlbumsToBuy.Dtos.OrderUserDto
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Order items</h4>
+<hr />
+
+@foreach (var shoppingListItem in Model.User.ShoppingListItems)
+{
+    <p><img src="~/@shoppingListItem.Album.ImageUrl" style="width:60px; height:60px;" /> @shoppingListItem.Album.Name by @shoppingListItem.Album.Creator</p>
+
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.AddressId" class="control-label"></label>
+                <select asp-for="Order.AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.SpecialNotes" class="control-label"></label>
+                <input asp-for="Order.SpecialNotes" class="form-control" />
+                <span asp-validation-for="Order.SpecialNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

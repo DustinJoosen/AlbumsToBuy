@@ -46,9 +46,11 @@
 <hr/>
 
 @foreach(var shoppingListItem in Model.ShoppingListItems)
-{
-    <p>@shoppingListItem.Album.Name by @shoppingListItem.Album.Creator</p>
+{  
+    <p><img src="~/@shoppingListItem.Album.ImageUrl" style="width:60px; height:60px;" />  @shoppingListItem.Album.Name by @shoppingListItem.Album.Creator</p>
 }
+
+
 
 <hr/>
 

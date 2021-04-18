@@ -14,8 +14,9 @@ namespace AlbumsToBuy.Models
 		[Required]
 		public int UserId { get; set; }
 
+		[DataType("decimal(16,2)")]
 		[Required]
-		public int Amount { get; set; }
+		public decimal Amount { get; set; }
 		public PaymentStatus Status { get; set; }
 	}
 }

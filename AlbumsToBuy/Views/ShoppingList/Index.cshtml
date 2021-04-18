@@ -4,8 +4,8 @@
 
 @foreach (var shoppingListItem in Model.ShoppingListItems)
 {
-<form method="post" asp-action="RemoveFromShoppingList">
-    <input type="hidden" value="@shoppingListItem.Id" name="Id" />
-    <p>@shoppingListItem.Album.Name by @shoppingListItem.Album.Creator <input type="submit" value="x"/></p>
-</form>
+    <form method="post" asp-action="RemoveFromShoppingList">
+        <input type="hidden" value="@shoppingListItem.Id" name="Id" />
+        <p> <img src="~/@shoppingListItem.Album.ImageUrl" style="width:60px; height:60px;" /> @shoppingListItem.Album.Name by @shoppingListItem.Album.Creator <input type="submit" value="x" /></p>
+    </form>
 }
