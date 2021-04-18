@@ -2,7 +2,7 @@
 using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
-using Blazored.LocalStorage;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +19,12 @@ namespace AlbumsToBuy.Controllers
 	public class AccountController : Controller
 	{
 		private UserService _userService;
+		private INotyfService _notyf;
 
-		public AccountController(UserService userService)
+		public AccountController(UserService userService, INotyfService notyf)
 		{
 			_userService = userService;
+			_notyf = notyf;
 		}
 
 		public IActionResult Login()
@@ -55,6 +57,8 @@ namespace AlbumsToBuy.Controllers
 				};
 
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+
+				_notyf.Information($"Successfully signed in. Welcome {user.FullName}");
 				return RedirectToAction("Index", "Home");
 			}
 			else
@@ -104,6 +108,8 @@ namespace AlbumsToBuy.Controllers
 				};
 
 				await _userService.Create(user);
+
+				_notyf.Information($"Successfully registered your account. Welcome {user.FullName}");
 				return RedirectToAction("Login", "Account");
 			}
 
@@ -130,6 +136,7 @@ namespace AlbumsToBuy.Controllers
 			if (ModelState.IsValid)
 			{
 				await _userService.Update(user);
+				_notyf.Information($"Successfully saved your account settings.");
 				return RedirectToAction("Index", "Home");
 			}
 

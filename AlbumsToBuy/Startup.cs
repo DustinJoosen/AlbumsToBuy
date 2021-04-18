@@ -2,7 +2,7 @@ using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using AlbumsToBuy.Services;
-using Blazored.LocalStorage;
+using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +45,13 @@ namespace AlbumsToBuy
 			{
 				options.LoginPath = "/Account/Login";
 				options.Cookie.Name = "AuthorizationCookie";
-				//options.Cookie.Expiration = TimeSpan.FromDays(28);
+			});
+
+			services.AddNotyf(config =>
+			{
+				config.DurationInSeconds = 5;
+				config.IsDismissable = true;
+				config.Position = NotyfPosition.TopLeft;
 			});
 
 			//repositories
