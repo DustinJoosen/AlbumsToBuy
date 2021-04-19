@@ -96,3 +96,10 @@ body {
     top:10px;
     right:160px;
 }
+
+.remove_from_shopping_list{
+    background-color: transparent;
+    border:none;
+    color:red;
+    font-size:25px;
+}

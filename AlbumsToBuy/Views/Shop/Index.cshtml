@@ -64,10 +64,12 @@
             <td>
                 @if (User.IsInRole("Customer"))
                 {
-                    <form asp-action="AddToShoppingCart" method="post">
-                        <input type="hidden" value="@item.Id" name="Id" />
-                        <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
-                    </form>
+                <form asp-action="AddToShoppingCart" method="post">
+                    <input type="hidden" value="@item.Id" name="Id" />
+                    <button type="submit" class="btn btn-warning" style="color:black">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </form>
                 }
             </td>
         </tr>

@@ -44,5 +44,43 @@ namespace AlbumsToBuy.Controllers
 			await _shoppingListItemService.Remove(shoppingListItem);
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> IncrementQuantity(int Id)
+		{
+			var shoppingListItem = await _shoppingListItemService.GetById(Id);
+			if (shoppingListItem == null)
+			{
+				return NotFound();
+			}
+
+			shoppingListItem.Quantity++;
+			
+			await _shoppingListItemService.Update(shoppingListItem);
+			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DecrementQuantity(int Id)
+		{
+			var shoppingListItem = await _shoppingListItemService.GetById(Id);
+			if (shoppingListItem == null)
+			{
+				return NotFound();
+			}
+
+			shoppingListItem.Quantity--;
+
+			if (shoppingListItem.Quantity > 0)
+			{
+				await _shoppingListItemService.Update(shoppingListItem);
+			}
+			else
+			{
+				await _shoppingListItemService.Remove(shoppingListItem);
+			}
+
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

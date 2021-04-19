@@ -68,10 +68,6 @@
 {
 <form asp-action="AddToShoppingCart" method="post">
     <input type="hidden" asp-for="@Model.Id" />
-    <div class="form-group">
-        <label class="control-label">Quantity</label>
-        <input style="width:100px;" type="text" name="Quantity" value="1" class="form-control" />
-    </div>
     <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
 </form>
 }

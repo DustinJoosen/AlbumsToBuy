@@ -2,11 +2,27 @@
 
 <h1>Shopping list items</h1>
 
-@foreach (var shoppingListItem in Model.ShoppingListItems)
+@if (Model.ShoppingListItems.Count <= 0)
 {
-    <form method="post" asp-action="RemoveFromShoppingList">
-        <input type="hidden" value="@shoppingListItem.Id" name="Id" />
-        <p>@shoppingListItem.Quantity x <img src="~/@shoppingListItem.Album.ImageUrl" style="width:60px; height:60px;" /> @shoppingListItem.Album.Name by @shoppingListItem.Album.Creator <input type="submit" value="x" /></p
->
-    </form>
+    <p>There are no albums on your shoppinglist. Why don't you <a href="/Shop">add<a /> something to it?</p>
+}
+else
+{
+    @foreach (var item in Model.ShoppingListItems)
+    {
+        <form method="post" asp-action="">
+            <input type="hidden" value="@item.Id" name="Id"/>
+            <p>
+                <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;"/>
+                @item.Album.Name by @item.Album.Creator
+
+                <input type="submit" class="btn btn-danger" formmethod="post" formaction="ShoppingList/DecrementQuantity" value="-" />
+                <span>@item.Quantity</span>
+                <input type="submit" class="btn btn-success" formmethod="post" formaction="ShoppingList/IncrementQuantity" value="+" />
+                
+                <input type="submit" class="remove_from_shopping_list" formmethod="post" formaction="ShoppingList/RemoveFromShoppingList" value="x" />
+            </p>
+        </form>
+    }
+
 }
