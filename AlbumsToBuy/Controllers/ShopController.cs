@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Helpers;
+using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +61,7 @@ namespace AlbumsToBuy.Controllers
 				AlbumId = album.Id,
 				Quantity = 1
 			});
+
 			
 			return RedirectToAction(nameof(Index));
 		}

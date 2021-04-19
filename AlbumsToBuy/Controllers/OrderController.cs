@@ -85,7 +85,9 @@ namespace AlbumsToBuy.Controllers
 
 			//set the user and the payment to the order, and save the order to the database
 			order.UserId = user.Id;
+			order.User = user;
 			order.PaymentId = payment.Id;
+			order.Payment = payment;
 
 			await _orderService.Create(order);
 
@@ -102,7 +104,10 @@ namespace AlbumsToBuy.Controllers
 
 			//empty out the shoppingList and go back to the homepage
 			await _shoppingListItemService.RemoveFromUser(user.Id);
-			_notyf.Information("Your order has been send");
+			
+			_notyf.Information("Your order has been send. you will shortly recieve a confirmation email");
+			MailHelper.OrderConfirmation(order);
+			
 			return RedirectToAction(nameof(Index), "Home");
 		}
 	}
