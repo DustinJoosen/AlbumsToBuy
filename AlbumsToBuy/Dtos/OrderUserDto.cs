@@ -13,5 +13,7 @@ namespace AlbumsToBuy.Dtos
 
 		public User User { get; set; }
 		public int UserId { get; set; }
+
+		public decimal TotalPrice{ get; set; }
 	}
 }

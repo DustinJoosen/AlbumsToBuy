@@ -37,7 +37,7 @@
             @Html.DisplayNameFor(model => model.ReleaseDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
+            <p>@Model.ReleaseDate.ToString("dd/MM/yyyy")</p>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
@@ -59,7 +59,7 @@
 <h3>Tracks</h3>
 @foreach (var track in Model.Tracks)
 {
-    <p>@track.Name - @track.Duration</p>
+    <p>@track.Name - @track.FormattedDuration</p>
 }
 
 <hr />

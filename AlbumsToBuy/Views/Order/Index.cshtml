@@ -13,11 +13,15 @@
 
 }
 
+<hr/>
+<p>Total price: €@Model.TotalPrice</p>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5>Address</h5>
             <div class="form-group">
                 <label asp-for="Order.Street" class="control-label"></label>
                 <input asp-for="Order.Street" class="form-control" />
@@ -38,6 +42,7 @@
                 <input asp-for="Order.Country" class="form-control" />
                 <span asp-validation-for="Order.Country" class="text-danger"></span>
             </div>
+            <hr/><br/>
             <div class="form-group">
                 <label asp-for="Order.SpecialNotes" class="control-label"></label>
                 <input asp-for="Order.SpecialNotes" class="form-control" />
