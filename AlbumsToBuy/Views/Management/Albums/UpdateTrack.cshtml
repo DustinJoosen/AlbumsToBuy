@@ -1,0 +1,56 @@
+﻿@model Album
+
+@{
+    ViewData["Title"] = "Update Tracks";
+}
+
+<h1>Update Tracks</h1>
+
+
+<hr />
+
+<h4>Add tracks</h4>
+
+<form asp- asp-action="CreateTrack">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="albumId" asp-for="@Model.Id" />
+    <div class="form-group" style="display:inline-block">
+        <label>Name</label>
+        <input required name="name" class="form-control" />
+    </div>
+    <div class="form-group" style="display:inline-block">
+        <label>Duration in seconds</label>
+        <input type="number" required name="duration" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-info" />
+    </div>
+</form>
+
+<hr />
+<h4>Edit Tracks</h4>
+
+
+<table class="table">
+    <tr>
+        <th>Track name</th>
+        <th>Duration</th>
+    </tr>
+    @foreach (var track in Model.Tracks)
+    {
+        <tr class="album_details_track">
+            <form method="post">
+                <input type="hidden" name="trackId" asp-for="@track.Id" />
+                <input type="hidden" name="albumId" asp-for="@Model.Id" />
+                <td><input asp-for="@track.Name" /></td>
+                <td><input asp-for="@track.Duration" /></td>
+                <td>
+                    <input formmethod="post" formaction="/Management/Albums/EditTrack" type="submit" class="btn btn-info" value="update" />
+                    <input formmethod="post" formaction="/Management/Albums/DeleteTrack" type="submit" class="btn btn-danger" value="delete" />
+                </td>
+            </form>
+        </tr>
+    }
+</table>
+
+<a asp-action="Index">Back to list</a>

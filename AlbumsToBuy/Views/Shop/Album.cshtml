@@ -55,21 +55,31 @@
 </div>
 
 <hr />
-
-<h3>Tracks</h3>
-@foreach (var track in Model.Tracks)
-{
-    <p>@track.Name - @track.FormattedDuration</p>
-}
+<h4>Tracks</h4>
 
 <hr />
 
+
+<table class="table">
+    <tr>
+        <th>Track name</th>
+        <th>Duration</th>
+    </tr>
+    @foreach (var track in Model.Tracks)
+    {
+        <tr class="album_details_track">
+            <td>@track.Name</td>
+            <td class="album_details_track_duration">@track.FormattedDuration</td>
+        </tr>
+    }
+</table>
+
 @if (User.IsInRole("Customer"))
 {
-<form asp-action="AddToShoppingCart" method="post">
-    <input type="hidden" asp-for="@Model.Id" />
-    <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
-</form>
+    <form asp-action="AddToShoppingCart" method="post">
+        <input type="hidden" asp-for="@Model.Id" />
+        <input type="submit" class="btn btn-primary" value="Add To ShoppingCart" />
+    </form>
 }
 
 

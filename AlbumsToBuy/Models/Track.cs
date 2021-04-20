@@ -16,6 +16,8 @@ namespace AlbumsToBuy.Models
 
 		[Required]
 		public string Name { get; set; }
+
+		[Display(Name="Duration in seconds")]
 		public int Duration { get; set; }
 
 		[NotMapped]

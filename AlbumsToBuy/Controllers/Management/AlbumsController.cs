@@ -10,6 +10,7 @@ using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using AlbumsToBuy.Helpers;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -18,11 +19,15 @@ namespace AlbumsToBuy.Controllers.Management
     public class AlbumsController : Controller
     {
         private AlbumService _albumService;
+        private TrackService _trackService;
+        private INotyfService _notyf;
         private IWebHostEnvironment _env;
 
-        public AlbumsController(AlbumService albumService, IWebHostEnvironment env)
+        public AlbumsController(AlbumService albumService, TrackService trackService, INotyfService notyf, IWebHostEnvironment env)
         {
             _albumService = albumService;
+            _trackService = trackService;
+            _notyf = notyf;
             _env = env;
         }
 
@@ -66,6 +71,8 @@ namespace AlbumsToBuy.Controllers.Management
                 ImageHelper.UploadImage(ref album, _env);
                 
                 await _albumService.Create(album);
+
+                _notyf.Information($"Album {album.Name} succsessfully created");
                 return RedirectToAction(nameof(Index));
             }
             return View(album);
@@ -107,6 +114,7 @@ namespace AlbumsToBuy.Controllers.Management
                     }
 
                     await _albumService.Update(album);
+                    _notyf.Information($"Album {album.Name} succsessfully updated");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,7 +162,61 @@ namespace AlbumsToBuy.Controllers.Management
 
             ImageHelper.RemoveImage(ref album, _env);
             await _albumService.Remove(album);
+
+            _notyf.Information($"Album {album.Name} succsessfully removed");
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> UpdateTrack(int id)
+		{
+            var album = await _albumService.GetById(id);
+            return View(album);
+		}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTrack(int albumId, int duration, string name)
+		{
+            var track = new Track()
+            {
+                AlbumId = albumId,
+                Duration = duration,
+                Name = name
+            };
+
+            await _trackService.Create(track);
+            return RedirectToAction("UpdateTrack", new { id = albumId });
+
+		}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTrack(int trackId, int albumId, Track track)
+		{
+            track.Id = trackId;
+            track.AlbumId = albumId;
+
+            if (ModelState.IsValid)
+			{
+                await _trackService.Update(track);
+                return RedirectToAction("UpdateTrack", new { id = albumId });
+            }
+            return View(track);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteTrack(int trackId)
+		{
+            var track = await _trackService.GetById(trackId);
+            if(track == null)
+			{
+                return NotFound();
+			}
+
+            await _trackService.Remove(track);
+            return RedirectToAction("UpdateTrack", new { id = track.AlbumId });
         }
 
     }

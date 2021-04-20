@@ -1,13 +1,12 @@
 ﻿@model AlbumsToBuy.Models.Album
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Album Details";
 }
 
-<h1>Details</h1>
+<h1>Album Details</h1>
 
 <div>
-    <h4>Album</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -38,7 +37,7 @@
             @Html.DisplayNameFor(model => model.ReleaseDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
+            <p>@Model.ReleaseDate.ToString("dd/MM/yyyy")</p>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
@@ -55,16 +54,31 @@
     </dl>
 </div>
 
-<hr/>
+<hr />
+<h4>Tracks</h4>
 
-@foreach(var track in Model.Tracks)
-{
-    <p><a href="/Management/Tracks/Details/@track.Id">@track.Name</a> - @track.Duration</p>
-}
+<hr />
 
-<hr/>
+
+<table class="table">
+    <tr>
+        <th>Track name</th>
+        <th>Duration</th>
+    </tr>
+    @foreach (var track in Model.Tracks)
+    {
+        <tr class="album_details_track">
+            <td>@track.Name</td>
+            <td class="album_details_track_duration">@track.FormattedDuration</td>
+        </tr>
+    }
+</table>
+
+
+<hr />
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="UpdateTrack" asp-route-id="@Model.Id">Update tracks</a> |
     <a asp-action="Index">Back to List</a>
 </div>

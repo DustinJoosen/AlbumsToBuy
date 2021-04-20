@@ -23,9 +23,12 @@ namespace AlbumsToBuy.Models
 		
 		[Required]
 		public int Stock { get; set; }
-		
+
 		[Required]
+		[Display(Name = "Release Date")]
 		public DateTime ReleaseDate { get; set; }
+
+		[Display(Name = "Cover Image")]
 		public string CoverImage { get; set; }
 		
 		[Required]
@@ -34,6 +37,7 @@ namespace AlbumsToBuy.Models
 		public List<Track> Tracks { get; set; }
 
 		[NotMapped]
+		[Display(Name = "Cover Image")]
 		public IFormFile FormFile { get; set; }
 
 		[NotMapped]

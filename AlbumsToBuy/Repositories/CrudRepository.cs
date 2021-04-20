@@ -30,6 +30,8 @@ namespace AlbumsToBuy.Repositories
 
 		public virtual async Task Create(T model)
 		{
+			model.Id = 0;
+
 			this._entity.Add(model);
 			await this._context.SaveChangesAsync();
 		}
