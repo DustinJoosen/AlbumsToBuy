@@ -17,6 +17,8 @@ namespace AlbumsToBuy.Models
 		[DataType("decimal(16,2)")]
 		[Required]
 		public decimal Amount { get; set; }
+
+		[Display(Name = "Payment Status")]
 		public PaymentStatus Status { get; set; }
 	}
 }

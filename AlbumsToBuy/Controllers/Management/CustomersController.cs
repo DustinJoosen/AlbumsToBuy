@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -16,17 +17,19 @@ namespace AlbumsToBuy.Controllers.Management
     public class CustomersController : Controller
     {
         private readonly UserService _userService;
+        private INotyfService _notyf;
 
-        public CustomersController(UserService userService)
+        public CustomersController(UserService userService, INotyfService notyf)
         {
             _userService = userService;
+            _notyf = notyf;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var users = await _userService.GetAll();
-            return View(users);
+            var customers = await _userService.GetCustomers();
+            return View(customers);
         }
 
         // GET: Customers/Details/5
@@ -47,7 +50,7 @@ namespace AlbumsToBuy.Controllers.Management
         }
 
         // GET: Customers/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -59,8 +62,16 @@ namespace AlbumsToBuy.Controllers.Management
         {
             if (ModelState.IsValid)
             {
-                await _userService.Create(user);
-                return RedirectToAction(nameof(Index));
+                if (await _userService.UniqueEmail(user.Email))
+                {
+
+                    await _userService.Create(user);
+
+                    _notyf.Information($"Customer {user.FullName} succsessfully created");
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ModelState.AddModelError(nameof(user.Email), "This email is already in use");
             }
 
             return View(user);
@@ -110,6 +121,7 @@ namespace AlbumsToBuy.Controllers.Management
                         throw;
                     }
                 }
+                _notyf.Information($"Customer {user.FullName} succsessfully updated");
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -144,6 +156,8 @@ namespace AlbumsToBuy.Controllers.Management
 			}
 
             await _userService.Remove(user);
+            
+            _notyf.Information($"Customer {user.FullName} succsessfully deleted");
             return RedirectToAction(nameof(Index));
         }
 

@@ -83,7 +83,7 @@ namespace AlbumsToBuy.Controllers
 				bool valid = true;
 				if (!await _userService.UniqueEmail(register.Email))
 				{
-					ModelState.AddModelError("Email", "This email has already been registered");
+					ModelState.AddModelError("Email", "This email is already in use");
 					valid = false;
 				}
 				if(register.Password != register.PasswordConfirmation)

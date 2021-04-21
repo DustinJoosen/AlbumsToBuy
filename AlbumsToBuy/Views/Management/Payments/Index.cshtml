@@ -1,10 +1,20 @@
 ﻿@model IEnumerable<AlbumsToBuy.Models.Payment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Payment Management";
 }
 
-<h1>Index</h1>
+<h1>Payment Management</h1>
+
+<label>Show Payed</label>
+@if (ViewBag.ShowPayed)
+{
+    <input type="checkbox" class="custom-checkbox" checked onclick="window.location = '/Management/Payments'"/>
+}
+else
+{
+    <input type="checkbox" class="custom-checkbox" onclick="window.location = '/Management/Payments?ShowPayed=true'"/>
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -25,23 +35,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="/Management/Customers/Details/@item.User.Id">@item.User.Email</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

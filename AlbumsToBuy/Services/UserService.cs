@@ -30,5 +30,10 @@ namespace AlbumsToBuy.Services
 		{
 			return await this.repos.UniqueEmail(email);
 		}
+
+		public async Task<List<User>> GetCustomers()
+		{
+			return await this.repos.GetCustomers();
+		}
 	}
 }

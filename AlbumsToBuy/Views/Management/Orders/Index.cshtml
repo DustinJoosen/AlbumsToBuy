@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<AlbumsToBuy.Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order management";
 }
 
-<h1>Index</h1>
+<h1>Order management</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Payment)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.Payment.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment.Status)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SpecialNotes)
@@ -34,16 +34,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <a href="~/Management/Payments/Details/@item.PaymentId">@item.Payment.Amount</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
+                <a href="~/Management/Customers/Details/@item.User.Id">@item.User.Email</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a href="~/Management/Payments/Details/@item.PaymentId">$@item.Payment.Amount</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SpecialNotes)
@@ -51,7 +51,6 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Album" asp-route-id="@item.Id">Add Album</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

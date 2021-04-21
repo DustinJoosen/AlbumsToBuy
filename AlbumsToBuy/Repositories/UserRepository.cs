@@ -46,5 +46,13 @@ namespace AlbumsToBuy.Repositories
 
 			return user.Password == auth.Password;
 		}
+
+		public async Task<List<User>> GetCustomers()
+		{
+			return await this._context.Users
+				.Include(s => s.ShoppingListItems).ThenInclude(s => s.Album)
+				.Where(s => s.Role == UserRole.Customer)
+				.ToListAsync();
+		}
 	}
 }

@@ -68,7 +68,7 @@ namespace AlbumsToBuy.Controllers.Management
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Order order)
         {
-            order.OrderDate = DateTime.UtcNow;
+            order.OrderDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 await _orderService.Create(order);
@@ -161,27 +161,6 @@ namespace AlbumsToBuy.Controllers.Management
 
             await _orderService.Remove(order);
             return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Album(int id)
-		{
-            ViewData["AlbumId"] = new SelectList(await _albumService.GetAll(), "Id", "Name");
-            return View();
-		}
-
-        [HttpPost]
-        public async Task<IActionResult> Album(int id, AlbumOrder albumOrder)
-		{ 
-            albumOrder.OrderId = id;
-            albumOrder.Id = 0;
-
-			if (ModelState.IsValid)
-			{
-                await _albumOrderService.Create(albumOrder);
-                return RedirectToAction(nameof(Index));
-			}
-            ViewData["AlbumId"] = new SelectList(await _albumService.GetAll(), "Id", "Name");
-            return View(albumOrder);
         }
     }
 }

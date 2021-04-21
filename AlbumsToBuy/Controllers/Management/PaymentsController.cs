@@ -25,9 +25,19 @@ namespace AlbumsToBuy.Controllers.Management
         }
 
         // GET: Payments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool ShowPayed=false)
         {
-            var payments = await _paymentService.GetAll();
+            List<Payment> payments;
+			if (ShowPayed)
+			{
+                payments = await _paymentService.GetAll();
+            }
+			else
+			{
+                payments = await _paymentService.GetUnpaid();
+            }
+
+            ViewData["ShowPayed"] = ShowPayed;
             return View(payments);
         }
 
@@ -52,7 +62,7 @@ namespace AlbumsToBuy.Controllers.Management
         public async Task<IActionResult> Create()
         {
             var users = await _userService.GetAll();
-            ViewData["UserId"] = new SelectList(users, "Id", "FirstName");
+            ViewData["UserId"] = new SelectList(users, "Id", "FullName");
             return View();
         }
 
@@ -68,7 +78,7 @@ namespace AlbumsToBuy.Controllers.Management
             }
 
             var users = await _userService.GetAll();
-            ViewData["UserId"] = new SelectList(users, "Id", "FirstName");
+            ViewData["UserId"] = new SelectList(users, "Id", "FullName");
             
             return View(payment);
         }
@@ -88,7 +98,7 @@ namespace AlbumsToBuy.Controllers.Management
             }
 
             var users = await _userService.GetAll();
-            ViewData["UserId"] = new SelectList(users, "Id", "FirstName");
+            ViewData["UserId"] = new SelectList(users, "Id", "FullName");
             
             return View(payment);
         }
@@ -123,42 +133,9 @@ namespace AlbumsToBuy.Controllers.Management
                 return RedirectToAction(nameof(Index));
             }
             var users = await _userService.GetAll();
-            ViewData["UserId"] = new SelectList(users, "Id", "FirstName");
+            ViewData["UserId"] = new SelectList(users, "Id", "FullName");
             
             return View(payment);
-        }
-
-        // GET: Payments/Delete/5
-        public async Task<IActionResult> Delete(int? id
-            )
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var payment = await _paymentService.GetById((int)id);
-            if (payment == null)
-            {
-                return NotFound();
-            }
-
-            return View(payment);
-        }
-
-        // POST: Payments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var payment = await _paymentService.GetById(id);
-            if(payment == null)
-			{
-                return NotFound();
-			}
-
-            await _paymentService.Remove(payment);
-            return RedirectToAction(nameof(Index));
         }
     }
 }

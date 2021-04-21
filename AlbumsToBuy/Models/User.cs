@@ -12,9 +12,11 @@ namespace AlbumsToBuy.Models
 		public int Id { get; set; }
 		
 		[Required]
+		[Display(Name="First Name")]
 		public string FirstName { get; set; }
 		
 		[Required]
+		[Display(Name = "Last Name")]
 		public string LastName { get; set; }
 		
 		[Required]
@@ -29,6 +31,7 @@ namespace AlbumsToBuy.Models
 
 		public string Country { get; set; }
 
+		[Display(Name="Zip Code")]
 		public string ZipCode { get; set; }
 
 		[Required]
@@ -37,6 +40,7 @@ namespace AlbumsToBuy.Models
 		public List<ShoppingListItem> ShoppingListItems { get; set; }
 
 		[NotMapped]
+		[Display(Name = "Full Name")]
 		public string FullName { get { return $"{FirstName} {LastName}";  } }
 	}
 }

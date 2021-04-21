@@ -24,14 +24,19 @@ namespace AlbumsToBuy.Models
 		public string Country { get; set; }
 
 		[Required]
+		[Display(Name ="Zip Code")]
 		public string ZipCode { get; set; }
 
 		public User User { get; set; }
 		[Required]
 		public int UserId { get; set; }
 
-		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+		[Display(Name = "Order Date")]
+		public DateTime OrderDate { get; set; } = DateTime.Now;
+
+		[Display(Name = "Order Status")]
 		public OrderStatus Status { get; set; } = OrderStatus.Recieved;
+
 		public string SpecialNotes{ get; set; }
 
 		public List<AlbumOrder> Albums { get; set; }

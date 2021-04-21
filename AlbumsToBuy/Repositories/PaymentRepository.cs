@@ -17,7 +17,17 @@ namespace AlbumsToBuy.Repositories
 
 		public override async Task<List<Payment>> GetAll()
 		{
-			return await this._context.Payments.Include(s => s.User).ToListAsync();
+			return await this._context.Payments
+				.Include(s => s.User)
+				.ToListAsync();
+		}
+
+		public async Task<List<Payment>> GetUnpaid()
+		{
+			return await this._context.Payments
+				.Include(s => s.User)
+				.Where(s => s.Status != PaymentStatus.Payed)
+				.ToListAsync();
 		}
 	}
 }

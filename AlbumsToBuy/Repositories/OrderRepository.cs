@@ -31,5 +31,13 @@ namespace AlbumsToBuy.Repositories
 				.Include(s => s.Albums).ThenInclude(s => s.Album)
 				.SingleOrDefaultAsync(s => s.Id == id);
 		}
+
+		public async Task<List<Order>> GetByUserId(int id)
+		{
+			return await this._context.Orders
+				.Include(s => s.Payment)
+				.Where(s => s.UserId == id)
+				.ToListAsync();
+		}
 	}
 }
