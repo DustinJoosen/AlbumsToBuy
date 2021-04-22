@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                <a href="~/Shop/Album/@item.Id">Album Details</a>
+                <a class="redirection_hyperlink" href="~/Shop/Album/@item.Id">Album Details</a>
             </td>
             <td>
                 @if (User.Identity.IsAuthenticated)

@@ -43,11 +43,11 @@
                 <hr /><br />
                 <div class="form-group">
                     <label asp-for="Order.SpecialNotes" class="control-label"></label>
-                    <input asp-for="Order.SpecialNotes" class="form-control" />
+                    <textarea asp-for="Order.SpecialNotes" class="form-control"></textarea>
                     <span asp-validation-for="Order.SpecialNotes" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Order" class="btn btn-dark" />
                 </div>
             </form>
         </div>
@@ -57,10 +57,6 @@ else
 {
     <p>There are no albums on your shoppinglist. Why don't you <a href="/Shop">add</a> something to it?</p>
 }
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

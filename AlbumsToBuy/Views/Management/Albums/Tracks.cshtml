@@ -34,6 +34,7 @@
     <tr>
         <th>Track name</th>
         <th>Duration</th>
+        <th></th>
     </tr>
     @foreach (var track in Model.Tracks)
     {
@@ -41,8 +42,8 @@
             <form method="post">
                 <input type="hidden" name="trackId" asp-for="@track.Id" />
                 <input type="hidden" name="albumId" asp-for="@Model.Id" />
-                <td><input asp-for="@track.Name" /></td>
-                <td><input asp-for="@track.Duration" /></td>
+                <td><input class="album_details_track_input" asp-for="@track.Name" /></td>
+                <td><input class="album_details_track_input" asp-for="@track.Duration" /></td>
                 <td>
                     <input formmethod="post" formaction="/Management/Albums/EditTrack" type="submit" class="btn btn-info" value="update" />
                     <input formmethod="post" formaction="/Management/Albums/DeleteTrack" type="submit" class="btn btn-danger" value="delete" />
