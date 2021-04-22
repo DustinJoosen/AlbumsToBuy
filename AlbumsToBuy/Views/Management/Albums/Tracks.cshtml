@@ -1,17 +1,16 @@
 ﻿@model Album
 
 @{
-    ViewData["Title"] = "Update Tracks";
+    ViewData["Title"] = $"Tracks of Album {Model.Name}";
 }
 
-<h1>Update Tracks</h1>
-
+<h1>Track of Album @Model.Name  </h1>
 
 <hr />
 
 <h4>Add tracks</h4>
 
-<form asp- asp-action="CreateTrack">
+<form asp-action="CreateTrack">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" name="albumId" asp-for="@Model.Id" />
     <div class="form-group" style="display:inline-block">

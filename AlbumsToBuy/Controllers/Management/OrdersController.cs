@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -20,15 +21,18 @@ namespace AlbumsToBuy.Controllers.Management
         private UserService _userService;
         private AlbumService _albumService;
         private AlbumOrderService _albumOrderService;
+        private INotyfService _notyf;
 
         public OrdersController(OrderService orderService,
-            PaymentService paymentService, UserService userService, AlbumService albumService, AlbumOrderService albumOrderService)
+            PaymentService paymentService, UserService userService, AlbumService albumService, 
+            AlbumOrderService albumOrderService, INotyfService notyf)
         {
             _orderService = orderService;
             _paymentService = paymentService;
             _userService = userService;
             _albumService = albumService;
             _albumOrderService = albumOrderService;
+            _notyf = notyf;
         }
 
         // GET: Orders
@@ -58,7 +62,6 @@ namespace AlbumsToBuy.Controllers.Management
         // GET: Orders/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id");
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email");
             return View();
         }
@@ -68,13 +71,20 @@ namespace AlbumsToBuy.Controllers.Management
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Order order)
         {
+            order.Payment.Status = PaymentStatus.NotPayed;
+            order.Payment.UserId = order.UserId;
+
+            await _paymentService.Create(order.Payment);
+
+            order.PaymentId = order.Payment.Id;
             order.OrderDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 await _orderService.Create(order);
+
+                _notyf.Information($"Order {order.Id} succsessfully created");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id", order.PaymentId);
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email", order.UserId);
             return View(order);
         }
@@ -92,7 +102,6 @@ namespace AlbumsToBuy.Controllers.Management
             {
                 return NotFound();
             }
-            ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id");
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email");
             return View(order);
         }
@@ -124,9 +133,9 @@ namespace AlbumsToBuy.Controllers.Management
                         throw;
                     }
                 }
+                _notyf.Information($"Order {order.Id} succsessfully updated");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PaymentId"] = new SelectList(await _paymentService.GetAll(), "Id", "Id", order.PaymentId);
             ViewData["UserId"] = new SelectList(await _userService.GetAll(), "Id", "Email", order.UserId);
             return View(order);
         }
@@ -153,14 +162,100 @@ namespace AlbumsToBuy.Controllers.Management
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _orderService.GetById((int)id);
+            var order = await _orderService.GetById(id);
             if(order == null)
 			{
                 return NotFound();
 			}
 
             await _orderService.Remove(order);
+            await _paymentService.Remove(order.Payment);
+
+            _notyf.Information($"Order {order.Id} succsessfully deleted");
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Albums(int id)
+		{
+            var order = await _orderService.GetById(id);
+            if(order == null)
+			{
+                return NotFound();
+			}
+
+            ViewData["AlbumId"] = new SelectList(await _albumService.GetAll(), "Id", "Name");
+            return View(order);
+		}
+
+        [HttpPost]
+        public async Task<IActionResult> AddAlbumToOrder(int albumId, int orderId)
+		{
+            var order = await _orderService.GetById(orderId);
+            if(order == null)
+			{
+                return NotFound();
+			}
+
+            await _albumOrderService.Create(new AlbumOrder()
+            {
+                OrderId = orderId,
+                AlbumId = albumId,
+                Quantity = 1
+            });
+
+            return RedirectToAction(nameof(Albums), new { id = orderId });
+		}
+
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromOrder(int albumOrderId)
+        {
+            var order = await _albumOrderService.GetById(albumOrderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            await _albumOrderService.Remove(order);
+            return RedirectToAction(nameof(Albums), new { id = order.OrderId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IncrementQuantity(int albumOrderId)
+        {
+            var order = await _albumOrderService.GetById(albumOrderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Quantity++;
+
+            await _albumOrderService.Update(order);
+            return RedirectToAction(nameof(Albums), new { id = order.OrderId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DecrementQuantity(int albumOrderId)
+        {
+            var order = await _albumOrderService.GetById(albumOrderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Quantity--;
+
+            if (order.Quantity > 0)
+            {
+                await _albumOrderService.Update(order);
+            }
+            else
+            {
+                await _albumOrderService.Remove(order);
+            }
+
+            return RedirectToAction(nameof(Albums), new { id = order.OrderId });
         }
     }
 }

@@ -29,6 +29,7 @@ namespace AlbumsToBuy.Models
 
 		public User User { get; set; }
 		[Required]
+		[Display(Name = "User")]
 		public int UserId { get; set; }
 
 		[Display(Name = "Order Date")]

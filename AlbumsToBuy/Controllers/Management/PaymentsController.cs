@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -17,11 +18,13 @@ namespace AlbumsToBuy.Controllers.Management
     {
         private PaymentService _paymentService;
         private UserService _userService;
+        private INotyfService _notyf;
 
-        public PaymentsController(PaymentService paymentService, UserService userService)
+        public PaymentsController(PaymentService paymentService, UserService userService, INotyfService notyf)
         {
             _paymentService = paymentService;
             _userService = userService;
+            _notyf = notyf;
         }
 
         // GET: Payments
@@ -74,6 +77,8 @@ namespace AlbumsToBuy.Controllers.Management
             if (ModelState.IsValid)
             {
                 await _paymentService.Create(payment);
+
+                _notyf.Information($"Payment succsessfully created");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -130,6 +135,7 @@ namespace AlbumsToBuy.Controllers.Management
                         throw;
                     }
                 }
+                _notyf.Information($"Payment succsessfully updated");
                 return RedirectToAction(nameof(Index));
             }
             var users = await _userService.GetAll();

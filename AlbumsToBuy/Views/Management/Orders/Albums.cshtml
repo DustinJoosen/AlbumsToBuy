@@ -1,0 +1,47 @@
+﻿@model Order
+
+@{
+    ViewData["Title"] = $"Albums of Order {Model.Id}";
+}
+
+<h1>Albums of Order @Model.Id</h1>
+
+<hr/>
+
+<h4>Add album</h4>
+
+<form asp-action="AddAlbumToOrder" method="post">
+    <input type="hidden" name="orderId" value="@Model.Id" />
+    <div class="form-group" style="width:40%;">
+        <label class="control-label">Album</label>
+        <select name="albumId" class="form-control" asp-items="ViewBag.AlbumId"></select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add to Order" class="btn btn-info" />
+    </div>
+</form>
+
+<hr/>
+<h4>Update albums</h4>
+
+@foreach (var item in Model.Albums)
+{
+    <form method="post" asp-action="">
+        <input type="hidden" value="@item.Id" name="albumOrderId" />
+        <p>
+            <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" />
+            @item.Album.Name by @item.Album.Creator
+
+            <input type="submit" class="btn btn-success" formmethod="post" formaction="../IncrementQuantity" value="+" />
+            <span>@item.Quantity</span>
+            <input type="submit" class="btn btn-danger" formmethod="post" formaction="../DecrementQuantity" value="-" />
+
+            <input type="submit" class="remove_from_shopping_list" formmethod="post" formaction="../RemoveFromOrder" value="x" />
+        </p>
+    </form>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -167,7 +167,7 @@ namespace AlbumsToBuy.Controllers.Management
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> UpdateTrack(int id)
+        public async Task<IActionResult> Tracks(int id)
 		{
             var album = await _albumService.GetById(id);
             return View(album);
@@ -185,7 +185,7 @@ namespace AlbumsToBuy.Controllers.Management
             };
 
             await _trackService.Create(track);
-            return RedirectToAction("UpdateTrack", new { id = albumId });
+            return RedirectToAction(nameof(Tracks), new { id = albumId });
 
 		}
 
@@ -199,7 +199,7 @@ namespace AlbumsToBuy.Controllers.Management
             if (ModelState.IsValid)
 			{
                 await _trackService.Update(track);
-                return RedirectToAction("UpdateTrack", new { id = albumId });
+                return RedirectToAction(nameof(Tracks), new { id = albumId });
             }
             return View(track);
 
@@ -216,7 +216,7 @@ namespace AlbumsToBuy.Controllers.Management
 			}
 
             await _trackService.Remove(track);
-            return RedirectToAction("UpdateTrack", new { id = track.AlbumId });
+            return RedirectToAction(nameof(Tracks), new { id = track.AlbumId });
         }
 
     }

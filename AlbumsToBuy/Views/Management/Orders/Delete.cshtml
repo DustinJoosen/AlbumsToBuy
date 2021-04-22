@@ -34,7 +34,7 @@
             @Html.DisplayFor(model => model.SpecialNotes)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Payment.Id)
+            <p>Payment Id</p>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Payment.Id)
@@ -82,13 +82,14 @@
 
 @foreach (var item in Model.Albums)
 {
-    <p>@item.Quantity x <img src="~/@item.Album.ImageUrl" /> @item.Album.Name by @item.Album.Creator</p>
+    <p>@item.Quantity x <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" /> @item.Album.Name by @item.Album.Creator</p>
 }
 
 
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Delete" class="btn btn-danger" /> |
-    <a asp-action="Index">Back to List</a>
-</form>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>
