@@ -1,7 +1,7 @@
 ﻿@model AlbumsToBuy.Dtos.OrderUserDto
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order Items";
 }
 
 <h4>Order items</h4>
@@ -9,12 +9,7 @@
 
 @if (Model.User.ShoppingListItems.Count > 0)
 {
-
-    @foreach (var shoppingListItem in Model.User.ShoppingListItems)
-    {
-        <p>@shoppingListItem.Quantity x <img src="~/@shoppingListItem.Album.ImageUrl" style="width:60px; height:60px;" /> @shoppingListItem.Album.Name by @shoppingListItem.Album.Creator</p>
-
-    }
+    @await Component.InvokeAsync("AlbumCollection", new { albumCollections = Model.User.ShoppingListItems as IEnumerable<IAlbumCollection> });
 
     <hr />
     <p>Total price: €@Model.TotalPrice</p>

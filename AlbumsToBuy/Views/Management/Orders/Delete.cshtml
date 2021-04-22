@@ -1,4 +1,4 @@
-﻿@model Order 
+﻿@model Order
 
 @{
     ViewData["Title"] = "Delete Order";
@@ -80,10 +80,8 @@
 
 <hr />
 
-@foreach (var item in Model.Albums)
-{
-    <p>@item.Quantity x <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" /> @item.Album.Name by @item.Album.Creator</p>
-}
+@await Component.InvokeAsync("AlbumCollection", new { albumCollections = Model.Albums as IEnumerable<IAlbumCollection> })
+
 
 
 <div>

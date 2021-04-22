@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Controllers
 {
-	[Authorize(Roles = "Customer")]
+	[Authorize]
 	public class ShoppingListController : Controller
 	{
 		private AlbumService _albumService;

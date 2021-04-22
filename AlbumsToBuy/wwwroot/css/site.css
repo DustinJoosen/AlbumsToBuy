@@ -35,6 +35,10 @@ html {
   }
 }
 
+hr{
+    background-color: rgb(250, 250, 250);
+}
+
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
@@ -58,16 +62,28 @@ html {
   min-height: 100%;
 }
 
+nav{
+    background-color: #100f10;
+}
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  color: rgb(250, 250, 250);
+  background-color: #242424;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #242424;
+    color: rgb(250, 250, 250);
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+table{
+    background-color:white;
 }
 
 /*login pages*/
@@ -104,15 +120,9 @@ body {
     font-size:25px;
 }
 
-.album_details_track{
-}
-
 .album_details_track:nth-child(odd){
     background-color: rgb(230, 230, 230);
 }
 .album_details_track:nth-child(even){
     background-color:rgb(250, 250, 250);    
-}
-
-.album_details_track_duration{
 }

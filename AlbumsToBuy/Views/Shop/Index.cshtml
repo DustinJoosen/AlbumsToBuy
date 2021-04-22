@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AlbumsToBuy.Models.Album>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shop";
 }
 
 <h1>Shop</h1>
@@ -62,7 +62,7 @@
                 <a href="~/Shop/Album/@item.Id">Album Details</a>
             </td>
             <td>
-                @if (User.IsInRole("Customer"))
+                @if (User.Identity.IsAuthenticated)
                 {
                 <form asp-action="AddToShoppingCart" method="post">
                     <input type="hidden" value="@item.Id" name="Id" />

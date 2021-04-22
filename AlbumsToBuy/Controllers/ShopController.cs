@@ -40,9 +40,9 @@ namespace AlbumsToBuy.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles ="Customer")]
+		[Authorize]
 		public async Task<IActionResult> AddToShoppingCart(int Id)
-		{
+		 {
 			var album = await _albumService.GetById(Id);
 			if(album == null)
 			{
@@ -50,7 +50,7 @@ namespace AlbumsToBuy.Controllers
 			}
 
 			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
-			if (user == null || user.Role != UserRole.Customer)
+			if (user == null)
 			{
 				return Unauthorized();
 			}

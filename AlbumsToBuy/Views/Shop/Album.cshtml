@@ -57,9 +57,6 @@
 <hr />
 <h4>Tracks</h4>
 
-<hr />
-
-
 <table class="table">
     <tr>
         <th>Track name</th>
@@ -74,7 +71,7 @@
     }
 </table>
 
-@if (User.IsInRole("Customer"))
+@if (User.Identity.IsAuthenticated)
 {
     <form asp-action="AddToShoppingCart" method="post">
         <input type="hidden" asp-for="@Model.Id" />

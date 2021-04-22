@@ -66,14 +66,12 @@
     <hr />
 
     <h3>Shopping List</h3>
-    @foreach (var item in Model.ShoppingListItems)
-    {
-        <p>@item.Quantity x <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" /> @item.Album.Name by @item.Album.Creator </p>
-    }
+    @await Component.InvokeAsync("AlbumCollection", new { albumCollections = Model.ShoppingListItems as IEnumerable<IAlbumCollection> })
+
 }
 
 <hr />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id"></a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id"></a>
     <a asp-action="Index">Back to List</a>
 </div>

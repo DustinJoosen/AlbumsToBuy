@@ -1,0 +1,6 @@
+﻿@model IEnumerable<IAlbumCollection> 
+
+@foreach (var item in Model)
+{
+    <p>@item.Quantity x <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" /> @item.Album.Name by @item.Album.Creator</p>
+}
