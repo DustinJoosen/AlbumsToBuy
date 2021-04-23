@@ -150,3 +150,33 @@ tr {
     border: none;
     padding: 5px;
 }
+
+/*shop page*/
+#shop_table {
+    text-align: center;
+    margin-left:-50px;
+}
+
+.shop_album {
+    text-align: left;
+    display: inline-block;
+    margin: 10px;
+    background-color: #1b1b1b;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    cursor:pointer;
+}
+
+.shop_album img {
+    margin: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.shop_album form button{
+    margin-left:5%;
+    width:90%;
+}
+
+.shop_album_descr {
+    margin-left: 5%;
+}
