@@ -14,6 +14,14 @@ namespace AlbumsToBuy.Repositories
 		{
 			_context = context;
 		}
+
+		public override async Task<ShoppingListItem> GetById(int id)
+		{
+			return await _context.ShoppingListItems
+				.Include(s => s.Album)
+				.SingleOrDefaultAsync(s => s.Id == id);
+		}
+
 		public override async Task Create(ShoppingListItem model)
 		{
 			var shoppinglistitem = await _context.ShoppingListItems.SingleOrDefaultAsync(s => s.AlbumId == model.AlbumId && s.UserId == model.UserId);

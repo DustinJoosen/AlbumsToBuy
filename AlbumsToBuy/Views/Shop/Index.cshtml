@@ -6,8 +6,6 @@
 
 <h1>Shop</h1>
 
-@*DESIGN: https://velvetmusic.nl/en *@
-
 <table id="shop_table">
     @for (int i = 0, counter = 0; i < Math.Ceiling((decimal)((Model.Count) / 4 + 1)); i++)
     {
@@ -40,74 +38,3 @@
         </tr>
     }
 </table>
-
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoverImage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Creator)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Stock)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReleaseDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
-                <th>Details</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    <img src="~/@item.ImageUrl" style="width:60px; height:60px;"/>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Creator)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-                <td>
-                    <p>@item.ReleaseDate.ToString("dd/MM/yyyy")</p>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    <a class="redirection_hyperlink" href="~/Shop/Album/@item.Id">Album Details</a>
-                </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                    <form asp-action="AddToShoppingCart" method="post">
-                        <input type="hidden" value="@item.Id" name="Id" />
-                        <button type="submit" class="btn btn-warning" style="color:black">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </form>
-                    }
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@

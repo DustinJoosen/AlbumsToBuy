@@ -22,6 +22,7 @@ namespace AlbumsToBuy.Models
 		public decimal Price { get; set; }
 		
 		[Required]
+		[Range(0, int.MaxValue, ErrorMessage = "Only positive number allowed.")]
 		public int Stock { get; set; }
 
 		[Required]

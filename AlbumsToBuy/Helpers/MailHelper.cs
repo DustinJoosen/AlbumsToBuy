@@ -35,6 +35,11 @@ namespace AlbumsToBuy.Helpers
 
 		public static void OrderConfirmation(Order order)
 		{
+			if(order.Albums == null)
+			{
+				return;
+			}
+
 			//string recipient = order.User.Email;
 			string recipient = "dustinjoosen2003@gmail.com";
 

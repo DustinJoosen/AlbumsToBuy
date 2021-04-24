@@ -19,17 +19,19 @@ namespace AlbumsToBuy.Controllers
 		private UserService _userService;
 		private PaymentService _paymentService;
 		private OrderService _orderService;
+		private AlbumService _albumService;
 		private AlbumOrderService _albumOrderService;
 		private ShoppingListItemService _shoppingListItemService;
 		private INotyfService _notyf;
 
 
-		public OrderController(UserService userService, PaymentService paymentService, OrderService orderService, 
+		public OrderController(UserService userService, PaymentService paymentService, OrderService orderService, AlbumService albumService,
 			AlbumOrderService albumOrderService, ShoppingListItemService shoppingListItemService, INotyfService notyfService)
 		{
 			_userService = userService;
 			_paymentService = paymentService;
 			_orderService = orderService;
+			_albumService = albumService;
 			_albumOrderService = albumOrderService;
 			_shoppingListItemService = shoppingListItemService;
 			_notyf = notyfService;
@@ -91,21 +93,32 @@ namespace AlbumsToBuy.Controllers
 
 			await _orderService.Create(order);
 
-			//loop through all the items on the shoppingList, and add it to the order
+			//loop through all the items on the shoppingList, and add it to the order + handle the stock
 			foreach(var shoppingListItem in user.ShoppingListItems)
 			{
+				//if there are more items in the quantity, then there is stock, even it out
+				if (shoppingListItem.Album.Stock < shoppingListItem.Quantity)
+				{
+					_notyf.Information($"There were more items of album {shoppingListItem.Album.Name} then there was stock of it, Your order only includes {shoppingListItem.Album.Stock} items", 20);
+					shoppingListItem.Quantity = shoppingListItem.Album.Stock;
+				}
+
 				await _albumOrderService.Create(new AlbumOrder()
 				{
 					AlbumId = shoppingListItem.AlbumId,
 					OrderId = order.Id,
 					Quantity = shoppingListItem.Quantity
 				});
+
+				//decrement the stock with the quantities of the album orders
+				shoppingListItem.Album.Stock -= shoppingListItem.Quantity;
+				await _albumService.Update(shoppingListItem.Album);
 			}
 
 			//empty out the shoppingList and go back to the homepage
 			await _shoppingListItemService.RemoveFromUser(user.Id);
 			
-			_notyf.Information("Your order has been send. you will shortly recieve a confirmation email");
+			_notyf.Information("Your order has been send. you will shortly recieve a confirmation email", 10);
 			MailHelper.OrderConfirmation(order);
 			
 			return RedirectToAction(nameof(Index), "Home");

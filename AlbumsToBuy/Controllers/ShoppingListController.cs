@@ -54,8 +54,16 @@ namespace AlbumsToBuy.Controllers
 				return NotFound();
 			}
 
-			shoppingListItem.Quantity++;
-			
+			if(shoppingListItem.Quantity < shoppingListItem.Album.Stock)
+			{
+				shoppingListItem.Quantity++;
+			}
+			else
+			{
+				ModelState.AddModelError("Input", "This is the amount of stock this album currently has.");
+				return RedirectToAction(nameof(Index));
+			}
+
 			await _shoppingListItemService.Update(shoppingListItem);
 			return RedirectToAction(nameof(Index));
 		}

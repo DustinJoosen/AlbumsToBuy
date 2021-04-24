@@ -13,6 +13,8 @@ else
     @foreach (var item in Model.ShoppingListItems)
     {
         <form method="post" asp-action="">
+            @Html.ValidationSummary()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" value="@item.Id" name="Id" />
             <p>
                 <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" />

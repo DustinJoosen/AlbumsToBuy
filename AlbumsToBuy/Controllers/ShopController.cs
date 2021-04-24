@@ -24,7 +24,7 @@ namespace AlbumsToBuy.Controllers
 		}
 		public async Task<IActionResult> Index()
 		{
-			var albums = await _albumService.GetAll();
+			var albums = await _albumService.GetStocked();
 			return View(albums);
 		}
 
@@ -44,7 +44,7 @@ namespace AlbumsToBuy.Controllers
 		public async Task<IActionResult> AddToShoppingCart(int Id)
 		 {
 			var album = await _albumService.GetById(Id);
-			if(album == null)
+			if(album == null || album.Stock <= 0)
 			{
 				return NotFound();
 			}

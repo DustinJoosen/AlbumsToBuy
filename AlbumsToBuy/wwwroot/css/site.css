@@ -180,3 +180,11 @@ tr {
 .shop_album_descr {
     margin-left: 5%;
 }
+
+/*homepage*/
+#homepage_image {
+    width: 700px;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}

@@ -29,5 +29,10 @@ namespace AlbumsToBuy.Repositories
 			return await this._context.AlbumOlders.Include(s => s.Album).Where(s => s.OrderId == order.Id).ToListAsync();
 		}
 
+		public async Task<List<Album>> GetStocked()
+		{
+			return await this._context.Albums.Include(s => s.Tracks).Where(s => s.Stock > 0).ToListAsync();
+		}
+
 	}
 }

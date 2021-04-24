@@ -20,5 +20,11 @@ namespace AlbumsToBuy.Services
 		{
 			return await this._repos.GetByOrder(order);
 		}
+
+		public async Task<List<Album>> GetStocked()
+		{
+			return await this._repos.GetStocked();
+		}
+
 	}
 }

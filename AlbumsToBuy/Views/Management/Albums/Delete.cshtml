@@ -53,23 +53,9 @@
     </dl>
 
     <hr />
-    <h4>Tracks</h4>
 
-    <hr />
+    @await Component.InvokeAsync("Tracks", new { tracks = Model.Tracks })
 
-    <table class="table" style="width:60%;">
-        <tr>
-            <th>Track name</th>
-            <th>Duration</th>
-        </tr>
-        @foreach (var track in Model.Tracks)
-        {
-            <tr class="album_details_track">
-                <td>@track.Name</td>
-                <td class="album_details_track_duration">@track.FormattedDuration</td>
-            </tr>
-        }
-    </table>
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />

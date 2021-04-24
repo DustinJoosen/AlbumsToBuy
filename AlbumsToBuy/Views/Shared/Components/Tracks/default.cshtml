@@ -1,0 +1,16 @@
+﻿@model List<Track>
+
+<h4>Tracks</h4>
+<table class="table">
+    <tr>
+        <th>Track name</th>
+        <th>Duration</th>
+    </tr>
+    @foreach (var track in Model)
+    {
+        <tr class="album_details_track">
+            <td>@track.Name</td>
+            <td class="album_details_track_duration">@track.FormattedDuration</td>
+        </tr>
+    }
+</table>
