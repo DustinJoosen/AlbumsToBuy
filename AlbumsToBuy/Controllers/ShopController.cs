@@ -43,26 +43,43 @@ namespace AlbumsToBuy.Controllers
 		[Authorize]
 		public async Task<IActionResult> AddToShoppingCart(int Id)
 		 {
+			//get the album that will be added to the shoppingcart
 			var album = await _albumService.GetById(Id);
 			if(album == null || album.Stock <= 0)
 			{
 				return NotFound();
 			}
 
+			//get the currently logged in user
 			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
 			if (user == null)
 			{
 				return Unauthorized();
 			}
 
-			await _shoppingListItemService.Create(new ShoppingListItem()
+			//check if this album already is in the shoppingList
+			var shoppingListItem = user.ShoppingListItems.SingleOrDefault(s => s.Album.Name == album.Name);
+			if (shoppingListItem == null)
 			{
-				UserId = user.Id,
-				AlbumId = album.Id,
-				Quantity = 1
-			});
+				//if the album is not in the shoppingList, add it
+				await _shoppingListItemService.Create(new ShoppingListItem()
+				{
+					UserId = user.Id,
+					AlbumId = album.Id,
+					Quantity = 1
+				});
+			}
+			//if the album is already in the shoppingList, check if the quantity is more then the stock. if no, increment the quantity 
+			else if (shoppingListItem.Quantity < shoppingListItem.Album.Stock)
+			{
+				shoppingListItem.Quantity++;
+				await _shoppingListItemService.Update(shoppingListItem);
+			}
+			//when there is not enough stock to increment the quantity
+			else
+			{
+			}
 
-			
 			return RedirectToAction(nameof(Index));
 		}
 	}

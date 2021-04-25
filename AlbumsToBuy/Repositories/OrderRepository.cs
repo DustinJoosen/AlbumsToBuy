@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Helpers;
+using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,15 @@ namespace AlbumsToBuy.Repositories
 				.Include(s => s.User)
 				.Include(s => s.Albums).ThenInclude(s => s.Album)
 				.SingleOrDefaultAsync(s => s.Id == id);
+		}
+
+		public async Task UpdatePayment(Order model)
+		{
+			//update the payment to the albums
+			model.Payment.Amount = PriceCalculator.CalculateAlbumOrder(model.Albums);
+			
+			_context.Payments.Update(model.Payment);
+			await _context.SaveChangesAsync();
 		}
 
 		public async Task<List<Order>> GetByUserId(int id)

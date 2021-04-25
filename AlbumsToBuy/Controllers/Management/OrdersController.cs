@@ -9,6 +9,7 @@ using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using AlbumsToBuy.Helpers;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -202,6 +203,7 @@ namespace AlbumsToBuy.Controllers.Management
                 AlbumId = albumId,
                 Quantity = 1
             });
+            //await _orderService.UpdatePayment(order);
 
             return RedirectToAction(nameof(Albums), new { id = orderId });
 		}
@@ -217,6 +219,8 @@ namespace AlbumsToBuy.Controllers.Management
             }
 
             await _albumOrderService.Remove(order);
+            //await _orderService.UpdatePayment(order.Order);
+
             return RedirectToAction(nameof(Albums), new { id = order.OrderId });
         }
 
@@ -232,6 +236,7 @@ namespace AlbumsToBuy.Controllers.Management
             order.Quantity++;
 
             await _albumOrderService.Update(order);
+            //await _orderService.UpdatePayment(order.Order);
             return RedirectToAction(nameof(Albums), new { id = order.OrderId });
         }
 
@@ -255,6 +260,7 @@ namespace AlbumsToBuy.Controllers.Management
                 await _albumOrderService.Remove(order);
             }
 
+            await _orderService.UpdatePayment(order.Order);
             return RedirectToAction(nameof(Albums), new { id = order.OrderId });
         }
     }

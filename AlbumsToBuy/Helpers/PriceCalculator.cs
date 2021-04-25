@@ -17,5 +17,15 @@ namespace AlbumsToBuy.Helpers
 			}
 			return price;
 		}
+
+		public static decimal CalculateAlbumOrder(List<AlbumOrder> items)
+		{
+			decimal price = 0;
+			foreach (var item in items)
+			{
+				price += (item.Album.Price * item.Quantity);
+			}
+			return price;
+		}
 	}
 }

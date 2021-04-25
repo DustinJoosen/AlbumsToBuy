@@ -1,5 +1,7 @@
 ﻿@model User
-
+@{
+    ViewData["Title"] = "Shopping list";
+}
 <h1>Shopping list items</h1>
 
 @if (Model.ShoppingListItems.Count <= 0)

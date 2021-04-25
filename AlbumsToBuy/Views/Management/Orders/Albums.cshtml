@@ -1,8 +1,12 @@
-﻿@model Order
+﻿<!--think about how to use this together with the stock and payment-->
+
+@model Order
 
 @{
     ViewData["Title"] = $"Albums of Order {Model.Id}";
 }
+
+<h2 class="btn btn-warning">Payment and Stock do not interact with changes made here!</h2>
 
 <h1>Albums of Order @Model.Id</h1>
 

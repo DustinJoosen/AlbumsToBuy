@@ -19,5 +19,10 @@ namespace AlbumsToBuy.Services
 		{
 			return await this._repos.GetByUserId(id);
 		}
+
+		public async Task UpdatePayment(Order model)
+		{
+			await this._repos.UpdatePayment(model);
+		}
 	}
 }
