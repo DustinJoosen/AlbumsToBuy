@@ -51,7 +51,7 @@ namespace AlbumsToBuy.Repositories
 		{
 			return await this._context.Users
 				.Include(s => s.ShoppingListItems).ThenInclude(s => s.Album)
-				.Where(s => s.Role == UserRole.Customer)
+				.Where(s => s.Role == UserRole.Customer || s.Role == UserRole.UnconfirmedCustomer)
 				.ToListAsync();
 		}
 	}

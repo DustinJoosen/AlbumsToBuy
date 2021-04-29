@@ -33,6 +33,21 @@ namespace AlbumsToBuy.Helpers
 			}
 		}
 
+		public static void RegistrationConfirmation(User user)
+		{
+			//string recipent = user.Email;
+			string recipent = "dustinjoosen2003@gmail.com";
+			string subject = "AlbumsToBuy Registration Confirmation";
+
+			var sb = new StringBuilder();
+			sb.AppendLine($"Hello {user.FullName}<br/><br/>");
+			sb.AppendLine("You have registered to AlbumsToBuy using this email address.<br/>");
+			sb.AppendLine($"To confirm the registration, click <a href='https://localhost:44324/Account/Confirm/{user.Id}>here</a><br/>");
+			sb.AppendLine("If this was not you, you can ignore this email.<br/>");
+
+			SendMail(recipent, subject, sb.ToString());
+		}
+
 		public static void OrderConfirmation(Order order)
 		{
 			if(order.Albums == null)

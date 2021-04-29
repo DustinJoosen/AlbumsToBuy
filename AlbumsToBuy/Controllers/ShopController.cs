@@ -40,7 +40,7 @@ namespace AlbumsToBuy.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
+		[Authorize(Roles = "Admin, Customer")]
 		public async Task<IActionResult> AddToShoppingCart(int Id)
 		 {
 			//get the album that will be added to the shoppingcart

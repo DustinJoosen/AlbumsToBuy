@@ -188,3 +188,16 @@ tr {
     margin-left:auto;
     margin-right:auto;
 }
+
+
+.email_not_confirmed_message{
+    width:100%;
+    height:30px;
+    background-color:green;
+    color:white;
+    text-align:center;
+    margin:0;
+}
+nav{
+    margin:0;
+}

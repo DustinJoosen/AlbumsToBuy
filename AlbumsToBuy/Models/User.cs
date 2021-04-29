@@ -21,7 +21,10 @@ namespace AlbumsToBuy.Models
 		
 		[Required]
 		public string Email { get; set; }
-		
+
+		[Display(Name="Email Confirmed")]
+		public bool EmailConfirmed { get; set; }
+
 		[Required]
 		public string Password { get; set; }
 

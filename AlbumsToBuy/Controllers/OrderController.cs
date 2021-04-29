@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "Admin, Customer")]
 	public class OrderController : Controller
 	{
 		private UserService _userService;

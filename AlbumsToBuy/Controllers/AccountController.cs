@@ -104,12 +104,13 @@ namespace AlbumsToBuy.Controllers
 					Email = register.Email,
 					FirstName = register.FirstName,
 					LastName = register.LastName,
-					Role = UserRole.Customer
+					Role = UserRole.UnconfirmedCustomer
 				};
 
 				await _userService.Create(user);
+				MailHelper.RegistrationConfirmation(user);
 
-				_notyf.Information($"Successfully registered your account. Welcome {user.FullName}");
+				_notyf.Information($"Successfully registered your account. Welcome {user.FullName}. A confirmation email has been sent");
 				return RedirectToAction("Login", "Account");
 			}
 
@@ -142,6 +143,33 @@ namespace AlbumsToBuy.Controllers
 
 			return View(user);
 
+		}
+
+		public async Task<IActionResult> Confirm(int? id)
+		{
+			if(id == null)
+			{
+				return BadRequest();
+			}
+
+			var user = await _userService.GetById((int)id);
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			user.EmailConfirmed = true;
+			user.Role = UserRole.Customer;
+			await _userService.Update(user);
+
+			_notyf.Information("Successfully confirmed your email. you can now order items");
+			return RedirectToAction(nameof(Index), "Home");
+		}
+
+		public IActionResult AccessDenied()
+		{
+			_notyf.Information("You are not authorized for this action. \nplease log in with an account with more rights");
+			return RedirectToAction("Login");
 		}
 	}
 }

@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,6 +32,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @if (item.EmailConfirmed)
+                {
+                    <p>Yes</p>
+                }
+                else
+                {
+                    <p>No</p>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -10,6 +10,12 @@
 
 <body>
     <header>
+        @if (User.IsInRole("UnconfirmedCustomer"))
+        {
+            <div class="email_not_confirmed_message">
+                <p>Your email has not yet been confirmed. Check your email to confirm, so you can order items</p>
+            </div>
+        }
         <nav class="navbar navbar-expand-sm navbar-xtoggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AlbumsToBuy</a>
@@ -25,12 +31,16 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="ShoppingList" asp-action="Index">Shopping List</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
-                            </li>
+                            if (User.IsInRole("Admin") || User.IsInRole("Customer"))
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="ShoppingList" asp-action="Index">Shopping List</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                                </li>
+                            }
 
                             <li class="nav-item register_nav_link">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Settings">Settings</a>

@@ -28,6 +28,7 @@ namespace AlbumsToBuy
 
 	public enum UserRole
 	{
+		UnconfirmedCustomer,
 		Customer,
 		Admin
 	}
