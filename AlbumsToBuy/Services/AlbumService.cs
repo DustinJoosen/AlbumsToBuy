@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,9 @@ namespace AlbumsToBuy.Services
 			return await this._repos.GetStocked();
 		}
 
+		public async Task<List<Album>> Search(ShopSearchDto search)
+		{
+			return await this._repos.Search(search);
+		}
 	}
 }

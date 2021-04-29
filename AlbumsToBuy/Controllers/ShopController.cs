@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Helpers;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using AlbumsToBuy.Services;
@@ -81,6 +82,21 @@ namespace AlbumsToBuy.Controllers
 			}
 
 			return RedirectToAction(nameof(Index));
+		}
+
+		public async Task<IActionResult> SearchFor(ShopSearchDto search)
+		{
+			if (String.IsNullOrWhiteSpace(search.SearchValue))
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			var albums = await _albumService.Search(search);
+			
+			ViewData["SearchType"] = Convert.ToInt32(search.SearchType);
+			ViewData["SearchValue"] = search.SearchValue;
+
+			return View("Index", albums);
 		}
 	}
 }

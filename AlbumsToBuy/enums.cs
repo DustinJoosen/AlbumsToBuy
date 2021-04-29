@@ -32,4 +32,10 @@ namespace AlbumsToBuy
 		Customer,
 		Admin
 	}
+
+	public enum ShopSearchType
+	{
+		Name,
+		Creator
+	}
 }

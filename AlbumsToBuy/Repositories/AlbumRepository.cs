@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,24 @@ namespace AlbumsToBuy.Repositories
 		public async Task<List<AlbumOrder>> GetByOrder(Order order)
 		{
 			return await this._context.AlbumOlders.Include(s => s.Album).Where(s => s.OrderId == order.Id).ToListAsync();
+		}
+
+		public async Task<List<Album>> Search(ShopSearchDto search)
+		{
+			var albums = _context.Albums
+				.Include(s => s.Tracks)
+				.Where(s => s.Stock > 0);
+
+			if(search.SearchType == ShopSearchType.Name)
+			{
+				albums = albums.Where(s => s.Name.ToLower().Replace(" ", "").Contains(search.SearchValue.ToLower().Replace(" ", "")));
+			}
+			else if(search.SearchType == ShopSearchType.Creator)
+			{
+				albums = albums.Where(s => s.Creator.ToLower().Replace(" ", "").Contains(search.SearchValue.ToLower().Replace(" ", "")));
+			}
+
+			return await albums.ToListAsync();
 		}
 
 		public async Task<List<Album>> GetStocked()

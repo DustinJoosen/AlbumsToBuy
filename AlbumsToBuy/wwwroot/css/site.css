@@ -201,3 +201,18 @@ tr {
 nav{
     margin:0;
 }
+
+#shop_search_form {
+    display: inline-block;
+    float:right;
+}
+
+#shop_search_form input[type=text],
+#shop_search_form select {
+    border:none;
+    border:1px solid white;
+    display: inline-block;
+    padding:5px;
+    border-radius:6px;
+    margin:4px;
+}

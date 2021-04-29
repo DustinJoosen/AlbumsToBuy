@@ -33,15 +33,6 @@ namespace AlbumsToBuy.Repositories
 				.SingleOrDefaultAsync(s => s.Id == id);
 		}
 
-		public async Task UpdatePayment(Order model)
-		{
-			//update the payment to the albums
-			model.Payment.Amount = PriceCalculator.CalculateAlbumOrder(model.Albums);
-			
-			_context.Payments.Update(model.Payment);
-			await _context.SaveChangesAsync();
-		}
-
 		public async Task<List<Order>> GetByUserId(int id)
 		{
 			return await this._context.Orders
