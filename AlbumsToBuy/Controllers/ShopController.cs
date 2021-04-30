@@ -52,7 +52,7 @@ namespace AlbumsToBuy.Controllers
 			}
 
 			//get the currently logged in user
-			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
+			var user = await _userService.GetById(User.Identity.Name);
 			if (user == null)
 			{
 				return Unauthorized();

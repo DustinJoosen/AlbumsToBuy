@@ -9,8 +9,10 @@
 <form asp-action="SearchFor" method="get" id="shop_search_form">
     @Html.DropDownList("SearchType", new SelectList(Enum.GetValues(typeof(ShopSearchType))), new { @class= "dark_theme" })  
     <input type="text" name="SearchValue" value="@ViewBag.SearchValue" class="dark_theme" placeholder="Search for"/>
-    <input type="submit" value="Search" class="btn btn-dark" />
+    <input type="submit" value="Search" class="dark_theme" />
 </form>
+
+<hr/>
 
 <table id="shop_table">
     @for (int i = 0, counter = 0; i < Math.Ceiling((decimal)((Model.Count) / 4 + 1)); i++)

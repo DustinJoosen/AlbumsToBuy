@@ -126,7 +126,7 @@ namespace AlbumsToBuy.Controllers
 		[Authorize]
 		public async Task<IActionResult> Settings()
 		{
-			var user = await _userService.GetById(Convert.ToInt32(User.Identity.Name));
+			var user = await _userService.GetById(User.Identity.Name);
 			return View(user);
 		}
 

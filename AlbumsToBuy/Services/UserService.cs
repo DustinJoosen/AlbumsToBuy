@@ -16,6 +16,11 @@ namespace AlbumsToBuy.Services
 			this.repos = repos;
 		}
 
+
+		public async Task<User> GetById(string id)
+		{
+			return await this.repos.GetById(Convert.ToInt32(id));
+		}
 		public async Task<bool> CheckLogin(AuthDto auth)
 		{
 			return await this.repos.CheckLogin(auth);

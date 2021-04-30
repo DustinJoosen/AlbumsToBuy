@@ -1,0 +1,36 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Shopping cart";
+}
+<h2>Albums on the shopping cart</h2>
+<div class="checkout_progress_number">1/3</div>
+
+<hr/>
+@if (Model.ShoppingListItems.Count <= 0)
+{
+    <p>There are no albums on your shopping cart. Why don't you <a href="/Shop">add</a> something to it?</p>
+}
+else
+{
+    @foreach (var item in Model.ShoppingListItems)
+    {
+        <form method="post" asp-action="">
+            @Html.ValidationSummary()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@item.Id" name="id" />
+            <p>
+                <img src="~/@item.Album.ImageUrl" style="width:60px; height:60px;" />
+                @item.Album.Name by @item.Album.Creator
+
+                <input type="submit" class="btn btn-success" formmethod="post" formaction="Checkout/IncrementQuantity" value="+" />
+                <span>@item.Quantity</span>
+                <input type="submit" class="btn btn-danger" formmethod="post" formaction="Checkout/DecrementQuantity" value="-" />
+
+                <input type="submit" class="remove_from_shopping_list" formmethod="post" formaction="Checkout/RemoveFromShoppingList" value="x" />
+            </p>
+        </form>
+    }
+
+    <a class="btn btn-dark" href="/Checkout/Address">Order</a>
+
+}
