@@ -1,10 +1,24 @@
-﻿@model IEnumerable<AlbumsToBuy.Models.Order>
+﻿@model OrdersPaginationDto
 
 @{
     ViewData["Title"] = "Order management";
 }
 
 <h1>Order management</h1>
+
+<label>Show Delivered</label>
+@if (ViewBag.showDelivered)
+{
+    <a asp-action="Index">
+        <input type="checkbox" class="show_order_delivered_checkbox custom-checkbox" checked />
+    </a>
+}
+else
+{
+    <a asp-action="Index" asp-route-ShowDelivered="true">
+        <input type="checkbox" class="show_order_delivered_checkbox custom-checkbox" />
+    </a>
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,48 +27,77 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model.Orders[0].Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Customer
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Payment.Amount)
+                @Html.DisplayNameFor(model => model.Orders[0].Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Payment.Status)
+                @Html.DisplayNameFor(model => model.Orders[0].Payment.Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SpecialNotes)
+                @Html.DisplayNameFor(model => model.Orders[0].Payment.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].SpecialNotes)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a href="~/Management/Customers/Details/@item.User.Id">@item.User.Email</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a href="~/Management/Payments/Details/@item.PaymentId">$@item.Payment.Amount</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payment.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecialNotes)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Albums" asp-route-id="@item.Id">Albums</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <a href="~/Management/Customers/Details/@item.User.Id">@item.User.FullName</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a href="~/Management/Payments/Details/@item.PaymentId">$@item.Payment.Amount</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecialNotes)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Albums" asp-route-id="@item.Id">Albums</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div>
+    @if (Model.Pagination.PageNumber == 1)
+    {
+        <button disabled class="btn btn-dark" id="order_management_prev_page">Previous</button>
+    }
+    else
+    {
+        <button class="btn btn-dark" id="order_management_prev_page" onclick="SetPageIndex(-1)">Previous</button>
+    }
+
+    <span>@Model.Pagination.PageNumber / @Model.Pagination.TotalPages</span>
+
+    @if (Model.Pagination.PageNumber >= Model.Pagination.TotalPages)
+    {
+        <button disabled class="btn btn-dark" id="order_management_next_page">Next</button>
+    }
+    else
+    {
+        <button class="btn btn-dark" id="order_management_next_page" onclick="SetPageIndex(1)">Next</button>
+    }
+</div>

@@ -10,6 +10,7 @@ using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AlbumsToBuy.Helpers;
+using AlbumsToBuy.Dtos;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -17,6 +18,8 @@ namespace AlbumsToBuy.Controllers.Management
     [Route("Management/[controller]/{action=Index}/{id?}")]
     public class OrdersController : Controller
     {
+        private const int PAGESIZE = 10;
+
         private OrderService _orderService;
         private PaymentService _paymentService;
         private UserService _userService;
@@ -37,10 +40,28 @@ namespace AlbumsToBuy.Controllers.Management
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDelivered=false, int page=1)
         {
-            var orders = await _orderService.GetAll();
-            return View(orders);
+            var pagination = new PaginationDto()
+            {
+                PageSize = PAGESIZE,
+                PageNumber = page
+            };
+
+            var count = await _orderService.Count(showDelivered);
+            pagination.TotalPages = count / PAGESIZE;
+            if (count % PAGESIZE != 0)
+			{
+                pagination.TotalPages++;
+            }
+
+            var orders = await _orderService.GetByPage(pagination, showDelivered);
+            ViewData["showDelivered"] = showDelivered;
+            return View(new OrdersPaginationDto() 
+            { 
+                Orders = orders,
+                Pagination = pagination
+            });
         }
 
         // GET: Orders/Details/5

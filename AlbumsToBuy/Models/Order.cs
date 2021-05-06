@@ -8,6 +8,7 @@ namespace AlbumsToBuy.Models
 {
 	public class Order : IBase
 	{
+		[Display(Name = "Order Id")]
 		public int Id { get; set; }
 
 		public Payment Payment { get; set; }
@@ -27,6 +28,7 @@ namespace AlbumsToBuy.Models
 		[Display(Name ="Zip Code")]
 		public string ZipCode { get; set; }
 
+		[Display(Name="Customer")]
 		public User User { get; set; }
 		[Required]
 		[Display(Name = "User")]

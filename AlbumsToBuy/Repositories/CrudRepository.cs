@@ -52,5 +52,10 @@ namespace AlbumsToBuy.Repositories
 		{
 			return this._entity.Any(s => s.Id == model.Id);
 		}
+
+		public virtual async Task<int> Count()
+		{
+			return await this._entity.CountAsync();
+		}
 	}
 }

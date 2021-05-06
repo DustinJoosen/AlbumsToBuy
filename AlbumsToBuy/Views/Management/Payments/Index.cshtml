@@ -23,6 +23,9 @@ else
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
@@ -38,6 +41,9 @@ else
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.Id)
+                </td>
                 <td>
                     <a href="/Management/Customers/Details/@item.User.Id">@item.User.Email</a>
                 </td>

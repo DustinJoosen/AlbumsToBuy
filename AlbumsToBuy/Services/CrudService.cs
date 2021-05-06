@@ -42,6 +42,11 @@ namespace AlbumsToBuy.Services
 		{
             return _repository.Exists(entity);
 		}
+
+        public virtual async Task<int> Count()
+		{
+            return await _repository.Count();
+		}
     }
 }
 

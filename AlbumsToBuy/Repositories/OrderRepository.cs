@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Helpers;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Helpers;
 using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,17 @@ namespace AlbumsToBuy.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<List<Order>> GetByPage(PaginationDto pagination, bool showDelivered)
+		{
+			return await this._context.Orders
+				.Include(s => s.Payment)
+				.Include(s => s.User)
+				.Where(s => (s.Status != OrderStatus.Delivered) || (showDelivered == true))
+				.OrderByDescending(s => s.Id)
+				.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
+				.ToListAsync();
+		}
+
 		public override async Task<Order> GetById(int id)
 		{
 			return await this._context.Orders
@@ -31,6 +43,13 @@ namespace AlbumsToBuy.Repositories
 				.Include(s => s.User)
 				.Include(s => s.Albums).ThenInclude(s => s.Album)
 				.SingleOrDefaultAsync(s => s.Id == id);
+		}
+
+		public async Task<int> Count(bool showDelivered)
+		{
+			return await this._context.Orders
+				.Where(s => (s.Status != OrderStatus.Delivered) || (showDelivered == true))
+				.CountAsync();
 		}
 
 		public async Task<List<Order>> GetByUserId(int id)
