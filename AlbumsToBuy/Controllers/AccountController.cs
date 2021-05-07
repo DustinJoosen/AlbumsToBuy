@@ -171,5 +171,63 @@ namespace AlbumsToBuy.Controllers
 			_notyf.Information("You are not authorized for this action. \nplease log in with an account with more rights");
 			return RedirectToAction("Login");
 		}
+
+		public IActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ForgotPassword(string email)
+		{
+			if(email == null)
+			{
+				return View();
+			}
+
+			var user = await _userService.GetByEmail(email);
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			MailHelper.ForgotPassword(user);
+
+			_notyf.Information("An email has been sent, with a link to reset your password");
+			return RedirectToAction(nameof(Login));
+		}
+
+		public async Task<IActionResult> ResetPassword(int id)
+		{
+			var user = await _userService.GetById(id);
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			return View(id);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ResetPassword(int id, string password, string passwordConfirmation)
+		{
+			if(password != passwordConfirmation)
+			{
+				ModelState.AddModelError(String.Empty, "Passwords need to be the same");
+				return View(id);
+			}
+
+			var user = await _userService.GetById(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			user.Password = password;
+			await _userService.Update(user);
+
+			_notyf.Information("Your password has been updated");
+			return RedirectToAction(nameof(Index), "Home");
+		}
 	}
 }

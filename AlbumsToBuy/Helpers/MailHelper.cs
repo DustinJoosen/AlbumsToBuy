@@ -44,6 +44,8 @@ namespace AlbumsToBuy.Helpers
 			sb.AppendLine("You have registered to AlbumsToBuy using this email address.<br/>");
 			sb.AppendLine($"To confirm the registration, click <a href='https://localhost:44324/Account/Confirm/{user.Id}'>here</a><br/>");
 			sb.AppendLine("If this was not you, you can ignore this email.<br/>");
+			sb.AppendLine("\nIf you want to take contact with us, you can safely reply to this email.<br/>");
+
 
 			SendMail(recipent, subject, sb.ToString());
 		}
@@ -58,10 +60,10 @@ namespace AlbumsToBuy.Helpers
 			//string recipient = order.User.Email;
 			string recipient = "dustinjoosen2003@gmail.com";
 
-			string subject = "Order Confirmation";
+			string subject = "Order Confirmation - AlbumsToBuy";
 
 			var sb = new StringBuilder();
-			sb.AppendLine("We have recieved your order.<br/>");
+			sb.AppendLine("We, at AlbumsToBuy, have recieved your order.<br/>");
 			sb.AppendLine($"This order was recieved on {order.OrderDate}.<br/>");
 			sb.AppendLine($"Your order is being sent to {order.Street} {order.ZipCode}, {order.City}. In {order.Country}.<br/>");
 			
@@ -73,7 +75,7 @@ namespace AlbumsToBuy.Helpers
 			sb.AppendLine("<hr/>Albums ordered:<br/>");
 			foreach(var item in order.Albums)
 			{
-				sb.AppendLine($"\t{item.Quantity} x <img src='https://localhost:44324/{item.Album.ImageUrl}' style='width:60px;height:60px;' />{item.Album.Name} by {item.Album.Creator}.<br/>");
+				sb.AppendLine($"\t{item.Quantity} x {item.Album.Name} by {item.Album.Creator}.<br/>");
 			}
 			sb.AppendLine("<hr/>");
 
@@ -83,6 +85,22 @@ namespace AlbumsToBuy.Helpers
 			sb.AppendLine("\nIf you want to take contact with us, you can safely reply to this email.<br/>");
 
 			SendMail(recipient, subject, sb.ToString());
+		}
+
+		public static void ForgotPassword(User user)
+		{
+			//var recipent = user.Email;
+			string recipent = "dustinjoosen2003@gmail.com";
+			string subject = "Password reset - AlbumsToBuy";
+
+			var sb = new StringBuilder();
+
+			sb.AppendLine("This email has been sent because you forgot your password<br/>");
+			sb.AppendLine("To reset your password, click on the underlying link:<br/>");
+			sb.AppendLine($"<a href='https://localhost:44324/Account/ResetPassword/{user.Id}'>Reset Link</a><br/>");
+			sb.AppendLine("\nIf you want to take contact with us, you can safely reply to this email.<br/>");
+
+			SendMail(recipent, subject, sb.ToString());
 		}
 	}
 }
