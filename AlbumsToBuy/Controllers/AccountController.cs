@@ -188,7 +188,8 @@ namespace AlbumsToBuy.Controllers
 			var user = await _userService.GetByEmail(email);
 			if(user == null)
 			{
-				return NotFound();
+				ModelState.AddModelError(String.Empty, "this email is not registered in our system");
+				return View();
 			}
 
 			MailHelper.ForgotPassword(user);
