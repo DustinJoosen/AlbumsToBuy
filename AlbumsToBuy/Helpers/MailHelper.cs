@@ -95,7 +95,7 @@ namespace AlbumsToBuy.Helpers
 
 			var sb = new StringBuilder();
 
-			sb.AppendLine("This email has been sent because you forgot your password<br/>");
+			sb.AppendLine("This email has been sent because you want to reset your password<br/>");
 			sb.AppendLine("To reset your password, click on the underlying link:<br/>");
 			sb.AppendLine($"<a href='https://localhost:44324/Account/ResetPassword/{user.Id}'>Reset Link</a><br/>");
 			sb.AppendLine("\nIf you want to take contact with us, you can safely reply to this email.<br/>");
