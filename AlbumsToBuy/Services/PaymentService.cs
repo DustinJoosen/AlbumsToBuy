@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Models;
 using AlbumsToBuy.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,17 @@ namespace AlbumsToBuy.Services
 			_repos = repos;
 		}
 
+		public async Task<int> Count(bool includePaid)
+		{
+			return await this._repos.Count(includePaid);
+		}
 		public async Task<List<Payment>> GetUnpaid()
 		{
 			return await this._repos.GetUnpaid();
+		}
+		public async Task<List<Payment>> GetByPage(PaginationDto pagination, bool showDelivered)
+		{
+			return await this._repos.GetByPage(pagination, showDelivered);
 		}
 	}
 }

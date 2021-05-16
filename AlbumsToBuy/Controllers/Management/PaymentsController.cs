@@ -9,6 +9,7 @@ using AlbumsToBuy.Models;
 using AlbumsToBuy.Services;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using AlbumsToBuy.Dtos;
 
 namespace AlbumsToBuy.Controllers.Management
 {
@@ -16,6 +17,8 @@ namespace AlbumsToBuy.Controllers.Management
     [Route("Management/[controller]/{action=Index}/{id?}")]
     public class PaymentsController : Controller
     {
+        private const int PAGESIZE = 10;
+
         private PaymentService _paymentService;
         private UserService _userService;
         private INotyfService _notyf;
@@ -28,20 +31,29 @@ namespace AlbumsToBuy.Controllers.Management
         }
 
         // GET: Payments
-        public async Task<IActionResult> Index(bool ShowPayed=false)
+        public async Task<IActionResult> Index(bool showPaid = false, int page=1)
         {
-            List<Payment> payments;
-			if (ShowPayed)
-			{
-                payments = await _paymentService.GetAll();
-            }
-			else
-			{
-                payments = await _paymentService.GetUnpaid();
+            var pagination = new PaginationDto()
+            {
+                PageSize = PAGESIZE,
+                PageNumber = page
+            };
+
+            var count = await _paymentService.Count(showPaid);
+            pagination.TotalPages = count / PAGESIZE;
+            
+            if (count % PAGESIZE != 0)
+            {
+                pagination.TotalPages++;
             }
 
-            ViewData["ShowPayed"] = ShowPayed;
-            return View(payments);
+            var payments = await _paymentService.GetByPage(pagination, showPaid);
+            ViewData["showPaid"] = showPaid;
+            return View(new ItemListPagination()
+            {
+                Payments = payments,
+                Pagination = pagination
+            });
         }
 
         // GET: Payments/Details/5

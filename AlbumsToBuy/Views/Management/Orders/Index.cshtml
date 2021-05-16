@@ -1,4 +1,4 @@
-﻿@model OrdersPaginationDto
+﻿@model ItemListPagination
 
 @{
     ViewData["Title"] = "Order management";
@@ -15,7 +15,7 @@
 }
 else
 {
-    <a asp-action="Index" asp-route-ShowDelivered="true">
+    <a asp-action="Index" asp-route-showDelivered="true">
         <input type="checkbox" class="show_order_delivered_checkbox custom-checkbox" />
     </a>
 }

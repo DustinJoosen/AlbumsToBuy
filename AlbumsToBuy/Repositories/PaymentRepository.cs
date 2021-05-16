@@ -1,4 +1,5 @@
-﻿using AlbumsToBuy.Models;
+﻿using AlbumsToBuy.Dtos;
+using AlbumsToBuy.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,28 @@ namespace AlbumsToBuy.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<int> Count(bool showPaid)
+		{
+			return await this._context.Payments
+				.Where(s => (s.Status != PaymentStatus.Payed) || (showPaid == true))
+				.CountAsync();
+		}
+
 		public async Task<List<Payment>> GetUnpaid()
 		{
 			return await this._context.Payments
 				.Include(s => s.User)
 				.Where(s => s.Status != PaymentStatus.Payed)
+				.ToListAsync();
+		}
+
+		public async Task<List<Payment>> GetByPage(PaginationDto pagination, bool showPaid)
+		{
+			return await this._context.Payments
+				.Include(s => s.User)
+				.Where(s => (s.Status != PaymentStatus.Payed) || (showPaid == true))
+				.OrderByDescending(s => s.Id)
+				.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
 				.ToListAsync();
 		}
 	}

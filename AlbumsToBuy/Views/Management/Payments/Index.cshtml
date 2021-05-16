@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AlbumsToBuy.Models.Payment>
+﻿@model ItemListPagination
 
 @{
     ViewData["Title"] = "Payment Management";
@@ -6,14 +6,18 @@
 
 <h1>Payment Management</h1>
 
-<label>Show Payed</label>
-@if (ViewBag.ShowPayed)
+<label>Show Paid</label>
+@if (ViewBag.showPaid)
 {
-    <input type="checkbox" class="custom-checkbox" checked onclick="window.location = '/Management/Payments'"/>
+    <a asp-action="Index">
+        <input type="checkbox" class="show_paid_payments_checkbox custom-checkbox" checked />
+    </a>
 }
 else
 {
-    <input type="checkbox" class="custom-checkbox" onclick="window.location = '/Management/Payments?ShowPayed=true'"/>
+    <a asp-action="Index" asp-route-showPaid="true">
+        <input type="checkbox" class="show_paid_payments_checkbox custom-checkbox" />
+    </a>
 }
 
 <p>
@@ -23,29 +27,29 @@ else
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Payments[0].Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                Customer
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                @Html.DisplayNameFor(model => model.Payments[0].Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.Payments[0].Status)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Payments)
         {
             <tr>
                 <td>
                     #@Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    <a href="/Management/Customers/Details/@item.User.Id">@item.User.Email</a>
+                    <a href="/Management/Customers/Details/@item.User.Id">@item.User.FullName</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Amount)
@@ -61,3 +65,25 @@ else
         }
     </tbody>
 </table>
+
+<div>
+    @if (Model.Pagination.PageNumber == 1)
+    {
+        <button disabled class="btn btn-dark" id="order_management_prev_page">Previous</button>
+    }
+    else
+    {
+        <button class="btn btn-dark" id="order_management_prev_page" onclick="SetPageIndex(-1)">Previous</button>
+    }
+
+    <span>@Model.Pagination.PageNumber / @Model.Pagination.TotalPages</span>
+
+    @if (Model.Pagination.PageNumber >= Model.Pagination.TotalPages)
+    {
+        <button disabled class="btn btn-dark" id="order_management_next_page">Next</button>
+    }
+    else
+    {
+        <button class="btn btn-dark" id="order_management_next_page" onclick="SetPageIndex(1)">Next</button>
+    }
+</div>

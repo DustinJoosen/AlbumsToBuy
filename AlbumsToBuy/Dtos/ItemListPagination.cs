@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace AlbumsToBuy.Dtos
 {
-	public class OrdersPaginationDto
+	public class ItemListPagination
 	{
 		public List<Order> Orders { get; set; }
+		public List<Payment> Payments { get; set; }
 		public PaginationDto Pagination { get; set; }
 	}
 }

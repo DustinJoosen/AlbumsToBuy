@@ -15,6 +15,18 @@
 
         document.location.search = urlParams.toString();
     })
+    $(".show_paid_payments_checkbox").on("click", function () {
+        var urlParams = new URLSearchParams(document.location.search);
+
+        if (urlParams.has("showPaid")) {
+            urlParams.delete("showPaid");
+        }
+        else {
+            urlParams.append("showPaid", true);
+        }
+
+        document.location.search = urlParams.toString();
+    })
 })
 
 function SetPageIndex(index_updater) {

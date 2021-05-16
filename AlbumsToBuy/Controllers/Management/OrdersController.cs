@@ -57,7 +57,7 @@ namespace AlbumsToBuy.Controllers.Management
 
             var orders = await _orderService.GetByPage(pagination, showDelivered);
             ViewData["showDelivered"] = showDelivered;
-            return View(new OrdersPaginationDto() 
+            return View(new ItemListPagination() 
             { 
                 Orders = orders,
                 Pagination = pagination
