@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlbumsToBuy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210418132640_AddQuantityToAlbumOrder")]
-    partial class AddQuantityToAlbumOrder
+    [Migration("20230118193154_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,34 +20,6 @@ namespace AlbumsToBuy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AlbumsToBuy.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
 
             modelBuilder.Entity("AlbumsToBuy.Models.Album", b =>
                 {
@@ -82,6 +54,30 @@ namespace AlbumsToBuy.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Albums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CoverImage = "NotFound.png",
+                            Creator = "Testing Creator 1",
+                            Name = "Testing Album 1",
+                            Price = 1.28m,
+                            ReleaseDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Stock = 42,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CoverImage = "NotFound.png",
+                            Creator = "Testing Creator 2",
+                            Name = "Testing Album 2",
+                            Price = 1.28m,
+                            ReleaseDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Stock = 42,
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("AlbumsToBuy.Models.AlbumOrder", b =>
@@ -116,8 +112,13 @@ namespace AlbumsToBuy.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -131,12 +132,18 @@ namespace AlbumsToBuy.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("AddressId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PaymentId");
 
@@ -178,6 +185,9 @@ namespace AlbumsToBuy.Migrations
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -212,6 +222,43 @@ namespace AlbumsToBuy.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Tracks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AlbumId = 1,
+                            Duration = 184,
+                            Name = "Testing Album 1 track 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AlbumId = 1,
+                            Duration = 187,
+                            Name = "Testing Album 1 track 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AlbumId = 1,
+                            Duration = 168,
+                            Name = "Testing Album 1 track 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AlbumId = 2,
+                            Duration = 205,
+                            Name = "Testing Album 2 track 1"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AlbumId = 2,
+                            Duration = 192,
+                            Name = "Testing Album 2 track 2"
+                        });
                 });
 
             modelBuilder.Entity("AlbumsToBuy.Models.User", b =>
@@ -221,16 +268,22 @@ namespace AlbumsToBuy.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("HomeAddressId")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -243,12 +296,13 @@ namespace AlbumsToBuy.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserToken")
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HomeAddressId");
 
                     b.ToTable("Users");
                 });
@@ -274,12 +328,6 @@ namespace AlbumsToBuy.Migrations
 
             modelBuilder.Entity("AlbumsToBuy.Models.Order", b =>
                 {
-                    b.HasOne("AlbumsToBuy.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AlbumsToBuy.Models.Payment", "Payment")
                         .WithMany()
                         .HasForeignKey("PaymentId")
@@ -291,8 +339,6 @@ namespace AlbumsToBuy.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Address");
 
                     b.Navigation("Payment");
 
@@ -336,15 +382,6 @@ namespace AlbumsToBuy.Migrations
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AlbumsToBuy.Models.User", b =>
-                {
-                    b.HasOne("AlbumsToBuy.Models.Address", "HomeAddress")
-                        .WithMany()
-                        .HasForeignKey("HomeAddressId");
-
-                    b.Navigation("HomeAddress");
                 });
 
             modelBuilder.Entity("AlbumsToBuy.Models.Album", b =>

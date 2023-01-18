@@ -52,6 +52,30 @@ namespace AlbumsToBuy.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Albums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CoverImage = "NotFound.png",
+                            Creator = "Testing Creator 1",
+                            Name = "Testing Album 1",
+                            Price = 1.28m,
+                            ReleaseDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Stock = 42,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CoverImage = "NotFound.png",
+                            Creator = "Testing Creator 2",
+                            Name = "Testing Album 2",
+                            Price = 1.28m,
+                            ReleaseDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Stock = 42,
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("AlbumsToBuy.Models.AlbumOrder", b =>
@@ -196,6 +220,43 @@ namespace AlbumsToBuy.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Tracks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AlbumId = 1,
+                            Duration = 184,
+                            Name = "Testing Album 1 track 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AlbumId = 1,
+                            Duration = 187,
+                            Name = "Testing Album 1 track 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AlbumId = 1,
+                            Duration = 168,
+                            Name = "Testing Album 1 track 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AlbumId = 2,
+                            Duration = 205,
+                            Name = "Testing Album 2 track 1"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AlbumId = 2,
+                            Duration = 192,
+                            Name = "Testing Album 2 track 2"
+                        });
                 });
 
             modelBuilder.Entity("AlbumsToBuy.Models.User", b =>
